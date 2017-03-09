@@ -1,0 +1,17 @@
+"1: if (row_i, col_1) is more 
+important than (row_i, col_j)
+0: otherwise
+-1: ignore
+","Mental
+Demand","Physical
+Demand","Temporal
+Demand",Performance,Effort,Frustration
+"Mental
+Demand",-1,1,0,1,1,1
+"Physical
+Demand",-1,-1,0,0,0,0
+"Temporal
+Demand",-1,-1,-1,1,1,1
+Performance,-1,-1,-1,-1,0,1
+Effort,-1,-1,-1,-1,-1,1
+Frustration,-1,-1,-1,-1,-1,-1
