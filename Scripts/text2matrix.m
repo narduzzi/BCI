@@ -5,7 +5,8 @@ function matrix=text2matrix(text)
 %OUTPUT=matrix
 
 text_data=fileread(text);
-data=textscan(text_data, '%f %f','Headerlines',2) ;
-matrix=[data{1} data{2}];
+data=textscan(text_data, '%f %f','Headerlines',1) ;
+matrix=[data{2}];
+matrix = matrix';
 
 end
