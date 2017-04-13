@@ -2,7 +2,7 @@ function [easy, hard_assist, hard_noassist] = partitioning(header, signal_filter
 %This function takes a filtered signal and partitionnates the signal by 
 %conditions easy, hard with assist and hard without assist using the text file for conditions
 %for every electrodes, each condition class are stored in a different vector and
-%each conditions in each vector are seperated by a high signal value (1e3)
+%each conditions in each vector are seperated by a high signal value (1e4)
 
 trajectories_diff = text2matrix(text);
 
@@ -20,7 +20,7 @@ easy = [];
 hard_assist = [];
 hard_noassist = [];
 
-seperation = ones(size(signal_filtered,1),1) * 1e3;
+seperation = ones(size(signal_filtered,1),1) * 1e4;
 
 for i = 1:length(trajectories_diff)
     if trajectories_diff(i) == 0 
