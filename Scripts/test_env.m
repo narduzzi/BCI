@@ -17,7 +17,7 @@ windows_size = 4;
 step_size = 2;
 
 splitted = split(matA,windows_size,step_size);
-matA;
+matA
 splitted
 
 sizeidx = round(N/windows_size)+1;
