@@ -1,0 +1,12 @@
+The subject was also trying to go through the centers in easy condition.
+
+The signal quality was not good at all, but at least artifacts and alpha wave when closing eyes were apparent.
+Iz and some other electrodes around occipital hardly contact the head well.
+
+Fixed O2 right before 4th trajectory.
+Fixed CP4 right before 15th trajectory.
+
+Some electrodes seems noisy after experiments:
+F3, F5, F7, FC5, FC3, C5, TP7, CP5, CP1, P1, P9, PO7, PO3, Oz, POz, FPz, AF4, F6, Cz, C6, P4, P6, PO8
+
+Signal quality of EOG and EMG were also bad comapring to the subject in the same day due to unknown reasons. Unknown interference/noise was strong. However, patterns should be seen are still avaliable.
