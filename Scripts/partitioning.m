@@ -4,7 +4,7 @@ function [easy, hard_assist, hard_noassist] = partitioning(header, signal_filter
 %electrodes, each condition class are stored in a different vector and
 %each conditions in each vector are seperated by a high signal value (1e3)
 
-trajectories_diff = text2matrix('Trials/data_omar/unity/ad6_10032017_ses_1_condition.txt')';
+trajectories_diff = text2matrix('Trials/data_omar/unity/ad6_10032017_ses_1_condition.txt');
 
 pos_trigger_begin = ceil(header.EVENT.POS(4)/8);
 begin = ceil(header.EVENT.POS(find(header.EVENT.TYP == 1))/8)';

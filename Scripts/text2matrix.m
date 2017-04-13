@@ -7,5 +7,6 @@ function matrix=text2matrix(text)
 text_data=fileread(text);
 data=textscan(text_data, '%f %f','Headerlines',1) ;
 matrix=[data{2}];
+matrix = matrix';
 
 end
