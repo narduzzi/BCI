@@ -14,7 +14,6 @@ function splitted = split(samples,windows_size,step_size)
             splitted = [splitted slice];
         %else
             %slice = samples(:,idx:endidx);
+            %splitted = [splitted slice];
         end
     end
-    
-    
