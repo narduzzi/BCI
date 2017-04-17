@@ -2,7 +2,6 @@ function self_assess( filename )
 % Plot the boxplot of the difficulty perceived by the subject
 %   filename contains the name of the subject folder
 
-%addpath('C:\Users\Ricardo\Documents\EPFL\Master\Master II\Brain-Computer Interaction\BCI\Recordings\ag7_24032017_ricardo1')
 addpath('..\Recordings')
 
 % Get the trajectory conditions
