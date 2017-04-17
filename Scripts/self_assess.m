@@ -1,9 +1,9 @@
 function self_assess( filename )
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+% Plot the boxplot of the difficulty perceived by the subject
+%   filename contains the name of the subject folder
 
 %addpath('C:\Users\Ricardo\Documents\EPFL\Master\Master II\Brain-Computer Interaction\BCI\Recordings\ag7_24032017_ricardo1')
-addpath('..\Recordings\ag7_24032017_ricardo1')
+addpath('..\Recordings')
 
 % Get the trajectory conditions
 file_cond = strcat(filename, '_ses_1_condition.txt');
@@ -18,5 +18,20 @@ data=textscan(text_data, '%f %f %f %f %f %f %f %f','Headerlines', 5, 'Delimiter'
 for i=1:8
     matrix(:,i+1)=[data{i}];
 end
+
+%Plot the perceived difficulty
+
+easy = matrix(find(matrix(:,1) == 0),3);
+hard_ass = matrix(find(matrix(:,1) == 1),3);
+hard = matrix(find(matrix(:,1) == 2),3);
+
+figure(1)
+boxplot([easy,hard_ass, hard],'Labels',{'easy','hard + assist', 'hard'})
+title('Workload perceived by the subject')
+
+% Notched plot
+figure(2)
+boxplot([easy,hard_ass, hard],'Notch', 'on','Labels',{'easy','hard + assist', 'hard'})
+title('Workload perceived by the subject')
 
 end
