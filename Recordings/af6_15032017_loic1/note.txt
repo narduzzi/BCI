@@ -1,0 +1,2 @@
+The subject misunderstood how to pass the waypoint for the 1st, 2nd, and 3rd trajectories. Since 2nd and 3rd ones are with small waypoints, the behavioral result is therefore contaimnated (lower than normal).
+The stopped bdf only recorded one trajectory without filling NASA-TLX because there seems to be problem (big noise) in the signal.
