@@ -4,6 +4,10 @@ function matrix=text2matrix(text)
 %INTPUT=text which must be a text file (.txt)
 %OUTPUT=matrix
 
+
+addpath(genpath('..\Recordings'));
+
+
 text_data=fileread(text);
 data=textscan(text_data, '%f %f','Headerlines',1) ;
 matrix=[data{2}];

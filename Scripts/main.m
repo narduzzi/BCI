@@ -2,6 +2,9 @@ function [data] = main(rawsignal,downfactor,low,high,order)
 %This function takes EEG bdf files,extract the raw data signals with the
 %header 
 
+addpath(genpath('..\Recordings'));
+addpath(genpath('..\Biosig_Setup'));
+
 
 biosig_installer
 [signal header] = sload(rawsignal);
