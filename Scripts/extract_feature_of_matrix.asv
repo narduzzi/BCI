@@ -6,8 +6,6 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
     features_matrix = [];
     
     figure;
-    str_f = sprintf('Features for difficulty %0.5f',difficulty);
-    title(str_f);
     %Foreach window, extract feature
     for i=0:sizeidx
         endidx = (i*4+windows_size);
@@ -16,11 +14,11 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         end
         signal = matrix(:,(i*4+1):endidx)
         
-        features = [];
+        features = []
         %Extract feature for this window
         %-----------------------------------
         %extract frequency coefficients
-        frequency_coeff = [];
+        frequency_coeff = []
         
         %extract energy
         energy = periodogram(signal);
@@ -50,8 +48,8 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         
         %extract covariance
         covariance = pcov(signal);
-      
-        %-------Plotting----------
+        
+        
         ax1 = subplot(3,2,1);
         plot(ax1,signal);
         title(ax1,'Original signal');
@@ -81,7 +79,7 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         pause;
         
     end
-    extracted = features_matrix;
+    extracted = feat
 end
 
         
