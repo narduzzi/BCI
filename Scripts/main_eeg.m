@@ -24,7 +24,7 @@ Fs = header.SampleRate/downfactor;
 signal_filtered = band_filter(low,high,order,Fs,signal_down);
 
 %Partitining by conditions
-[easy,hard_assist,hard_noassist] = partitioning2(header_down,signal_filtered,text);
+[easy,hard_assist,hard_noassist] = partition_cond(header_down,signal_filtered,text);
 
 %Windowing (already in feature extraction)
 %{
