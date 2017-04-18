@@ -14,7 +14,6 @@ hard_noassist = [];
 hard_assist = [];
 
 for i=1:length(index_1)
-    i
     if condition(i) == 0
         easy =  [easy signal_filtered(:,header.EVENT.POS(index_1(i)):header.EVENT.POS(index_255(i)))];
     elseif condition(i) == 1
