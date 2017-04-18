@@ -35,11 +35,6 @@ end
 matrix_success = success;
 
 
-% Plot the success rate
-
-
-
-
 
 end
 
