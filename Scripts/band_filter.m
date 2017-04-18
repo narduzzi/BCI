@@ -5,7 +5,7 @@ function [signal_filtered] = band_filter(low,high,order,Fs,signal_down)
 
 [b,a] = butter(order, [low high] / (Fs / 2), 'bandpass');
 
-for i=[1:64]
+for i=[1:length(signal_down(:,i))]
     signal_filtered(i,:) = filtfilt(b, a, signal_down(i,:));
 end
 
