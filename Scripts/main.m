@@ -27,13 +27,21 @@ signal_filtered = band_filter(low,high,order,Fs,signal_down);
 %Partitining by conditions
 [easy hard_assist hard_noassist] = partitioning(header_down,signal_filtered);
 
-%Windowing
-%window_size = ;
-%stepsize = ;
+%Windowing (already in feature extraction)
+%{
+window_size = 50;
+step_size = 2;
 windows_easy = split(easy,window_size,step_size);
 windows_hard_assist = split(hard_noassists,window_size,step_size);
 windows_hard_noassist = split(hard_noassist,window_size,step_size);
+%}
 
-%Feature extraction...
-%data = feature_extract(windows...);
+
+%Windowing and Feature extraction...
+window_size = 50;
+step_size = 2;
+features = features_extraction(easy,hard_noassist,hard_assist,header,window_size,step_size);
+
+%save features to csv...
+csvwrite('Samples_extracted.csv',features);
 end
