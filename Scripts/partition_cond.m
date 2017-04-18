@@ -14,13 +14,12 @@ hard_noassist = [];
 hard_assist = [];
 
 for i=1:length(index_1)
-    i
     if condition(i) == 0
-        easy =  [easy filt_signal(:,header.EVENT.POS(index_1(i)):header.EVENT.POS(index_255(i)))];
+        easy =  [easy signal_filtered(:,header.EVENT.POS(index_1(i)):header.EVENT.POS(index_255(i)))];
     elseif condition(i) == 1
-        hard_assist = [hard_assist filt_signal(:,header.EVENT.POS(index_1(i)):header.EVENT.POS(index_255(i)))];
+        hard_assist = [hard_assist signal_filtered(:,header.EVENT.POS(index_1(i)):header.EVENT.POS(index_255(i)))];
     else
-        hard_noassist = [hard_noassist filt_signal(:,header.EVENT.POS(index_1(i)):header.EVENT.POS(index_255(i)))];
+        hard_noassist = [hard_noassist signal_filtered(:,header.EVENT.POS(index_1(i)):header.EVENT.POS(index_255(i)))];
     end
 end
 
