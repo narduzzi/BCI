@@ -1,0 +1,7 @@
+function pca_signal=pcasig(signal)
+
+[coeff, score, latent]=pca(signal');
+cum_var=cumsum()/sum(variance);
+figure();
+plot(cum_var);
+end

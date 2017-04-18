@@ -8,6 +8,7 @@ function ica_signal=icasig(signal)
 
 addpath(genpath('..\FastICA_25'));
 
+signal=signal(1:64,:);
 ica_signal=fastica(signal);
 
 end
