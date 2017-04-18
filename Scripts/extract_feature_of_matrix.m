@@ -3,6 +3,8 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
     N = shape(2)
     sizeidx = round(N/windows_size)+1;
     
+    num_electrodes = shape(1);
+    
     features_matrix = [];
     
     figure;
@@ -79,6 +81,8 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         
         %for analysis
         pause;
+        
+        
         
     end
     extracted = features_matrix;

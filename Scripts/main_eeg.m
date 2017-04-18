@@ -1,13 +1,12 @@
-function [data] = main(rawsignal,downfactor,low,high,order)
+function [data] = main_eeg(rawsignal,downfactor,low,high,order,text)
 %This function takes EEG bdf files,extract the raw data signals with the
 %header 
 
 addpath(genpath('..\Recordings'));
-addpath(genpath('..\Biosig_Setup'));
 
 
-biosig_installer
-[signal header] = sload(rawsignal);
+%biosig_installer
+[signal,header] = sload(rawsignal);
 signal = signal';
 
 %CAR spatial filtering
@@ -15,7 +14,7 @@ signal = car(signal);
 
 %Downsampling
 downfactor = 8;
-[header_down signal_down] = downsampling(header,signal,downfactor);
+[header_down,signal_down] = downsampling(header,signal,downfactor);
 
 %Bandpass filtering
 low = 1;
@@ -24,8 +23,12 @@ order= 5;
 Fs = header.SampleRate/downfactor;
 signal_filtered = band_filter(low,high,order,Fs,signal_down);
 
+
+H_SIZE = size(header_down)
+S_SIZE = size(signal_filtered)
+
 %Partitining by conditions
-[easy hard_assist hard_noassist] = partitioning(header_down,signal_filtered);
+[easy,hard_assist,hard_noassist] = partitioning(header_down,signal_filtered,text);
 
 %Windowing (already in feature extraction)
 %{
