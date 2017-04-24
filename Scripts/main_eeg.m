@@ -5,7 +5,6 @@ function [data] = main_eeg(rawsignal,downfactor,low,high,order,text)
 
 addpath(genpath('..\Recordings'));
 
-
 %biosig_installer
 disp('Loading data...')
 [signal,header] = sload(rawsignal);
@@ -34,7 +33,6 @@ disp('Partitioning filtering...')
 
 %for test : to be removed?
 data = [easy,hard_assist,hard_noassist]
-
 
 %Windowing (already in feature extraction)
 %{
