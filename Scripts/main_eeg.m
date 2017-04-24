@@ -32,7 +32,7 @@ disp('Partitioning filtering...')
 [easy,hard_assist,hard_noassist] = partitioning(header_down,signal_filtered,text);
 
 %for test : to be removed?
-data = [easy,hard_assist,hard_noassist]
+data = [easy,hard_assist,hard_noassist];
 
 %Windowing (already in feature extraction)
 %{
