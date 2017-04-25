@@ -35,13 +35,12 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         hd = dfilt.fftfir(signal,len);
         frequency_coeff = fftcoeffs(hd);
         s = size(frequency_coeff);
-        new_size = [1,s(1)*s(2)];
-        frequency_coeff = reshape(frequency_coeff,new_size);
+        frequency_coeff = reshape(frequency_coeff,[s(1)*s(2),1]);
         
         %extract energy
         energy = periodogram(signal);
         s = size(energy);
-        new_size = [1, s(1)*s(2)];
+        new_size = [s(1)*s(2),1]
         energy = reshape(energy,new_size);
         
         %extract statistics
@@ -54,43 +53,35 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         smost_frequent = mode(signal);
         sdev = std(signal);
         
-        statistics(1,:) = smin;
-        statistics(2,:) = smean;
-        statistics(3,:) = smedian;
-       	statistics(4,:) = smax;
-        statistics(5,:) = svar;
-        statistics(6,:) = smost_frequent;
-        statistics(7,:) = sdev;
+        statistics(1) = smin;
+        statistics(2) = smean;
+        statistics(3) = smedian;
+       	statistics(4) = smax;
+        statistics(5) = svar;
+        statistics(6) = smost_frequent;
+        statistics(7) = sdev;
         
         labels_stat = {'min','mean','median','max','var','most frequent value','dev'};
-        
-        s = size(statistics);
-        new_size = [1, s(1)*s(2)];
-        statistics = reshape(statistics,new_size);
 
         %extract eigenvalues
-        %eigenvalues = eig(signal);
-        %s = size(eigenvalues);
-        %new_size = [1,s(1)*s(2)];
-        %eigenvalues = reshape(eigenvalues,new_size);
+        eigenvalues = eig(signal);
+        s = size(eigenvalues);
+        eigenvalues = reshape(eigenvalues,s(1)*s(2));
         
         %extract eigenvectors
-        fs = 100;
-        eigenvectors = peig(signal,2,512,fs,'half');
+        eigenvectors = peig(signal);
         s = size(eigenvectors);
-        new_size = [1,s(1)*s(2)];
+        new_size = [1,s(1)*s(2),1]
         eigenvectors = reshape(eigenvectors,new_size);
         
         %extract covariance
-        %covariance = pcov(signal);
-        %s = size(covariance);
-        % new_size = [1,s(1)*s(2)];
-        %covariance = reshape(covariance,new_size);
+        covariance = pcov(signal);
+        s = size(covariance);
+         new_size = [1,s(1)*s(2)];
+        covariance = reshape(covariance,new_size);
      
         % conc
-        %features = [difficulty statistics energy frequency_coeff eigenvalues eigenvectors covariance];
-      
-        features = [difficulty statistics energy frequency_coeff eigenvectors];
+        features = [difficulty statistics energy frequency_coeff eigenvalues eigenvectors covariance];
 
         
         if(plotting==true)

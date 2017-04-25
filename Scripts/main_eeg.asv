@@ -5,7 +5,7 @@ function [easy,hard_assist,hard_noassist,features_extracted] = main_eeg(rawsigna
 
 addpath(genpath('..\Recordings'));
 
-%PASS
+%{PASS
 
 %biosig_installer
 disp('Loading data...')
@@ -16,17 +16,15 @@ signal = signal';
 disp('Applying car...')
 signal = car(signal);
 
-
 %Downsampling
 downfactor = 8;
 fprintf('Downsampling : Factor %0.5f',downfactor)
 [header_down,signal_down] = downsampling(header,signal,downfactor);
 
-%{
-matr = load('Recordings\data_omar1.mat');
+
+matr = load('data_omar1.mat');
 signal_down = matr.signal_down;
 header_down = matr.header_down;
-%}
 
 %Bandpass filtering
 low = 1;
