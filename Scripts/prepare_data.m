@@ -1,8 +1,5 @@
 clear all
-close all
 clc
-
-addpath(genpath('..\Recordings'));
 
 data={'data_loic1','data_omar1','data_ricardo1','data_simon1'};
 
