@@ -13,10 +13,12 @@ order=4;
 %%Main part
 %Test
 disp('Loading data...')
-%[signal,header] = sload(rawsignal);
-%signal = signal';
+[signal,header] = sload(rawsignal);
+signal = signal';
+%channel selection
+signal = signal(1:64,:);
 disp('Applying car...')
-%signal = car(signal);
+signal = car(signal);
 
 downfactor = 8;
 fprintf('Downsampling : Factor %0.5f',downfactor)

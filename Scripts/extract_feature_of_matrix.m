@@ -8,7 +8,7 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
     features_matrix = [];
     
     str_f = sprintf('Features for difficulty %0.5f',difficulty);
-    title(str_f);
+
     %Foreach window, extract feature
     for i=0:sizeidx
         endidx = (i*4+windows_size);
@@ -21,6 +21,10 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
             break;
         end
         
+        if(i>20000)
+            break;
+        end
+        
         signal = matrix(:,startidx:endidx);
         SS = size(signal);
         if((SS(1)==SS(2)) && (SS(1)==1))
@@ -30,19 +34,26 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         features = [];
         %Extract feature for this window
         %-----------------------------------
+        
         %extract frequency coefficients
-        len = 50;
-        hd = dfilt.fftfir(signal,len);
-        frequency_coeff = fftcoeffs(hd);
+        max_freq = 35;
+        L = length(signal);
+        n = 2^nextpow2(L);
+        Y = fft(signal);
+        P = abs(Y/n);
+        frequency_coeff = P(:,1:max_freq);
+        
         s = size(frequency_coeff);
         new_size = [1,s(1)*s(2)];
         frequency_coeff = reshape(frequency_coeff,new_size);
         
+        %{
         %extract energy
         energy = periodogram(signal);
         s = size(energy);
         new_size = [1, s(1)*s(2)];
         energy = reshape(energy,new_size);
+        %}
         
         %extract statistics
         statistics = [];
@@ -74,12 +85,14 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         %new_size = [1,s(1)*s(2)];
         %eigenvalues = reshape(eigenvalues,new_size);
         
+        %{
         %extract eigenvectors
         fs = 100;
         eigenvectors = peig(signal,2,512,fs,'half');
         s = size(eigenvectors);
         new_size = [1,s(1)*s(2)];
         eigenvectors = reshape(eigenvectors,new_size);
+        %}
         
         %extract covariance
         %covariance = pcov(signal);
@@ -90,9 +103,10 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         % conc
         %features = [difficulty statistics energy frequency_coeff eigenvalues eigenvectors covariance];
       
-        features = [difficulty statistics energy frequency_coeff eigenvectors];
+        %features = [difficulty statistics frequency_coeff ];
+        features = [difficulty frequency_coeff ];
 
-        
+        %{
         if(plotting==true)
             figure;
             %-------Plotting----------
@@ -124,9 +138,9 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
             %for analysis
             pause;
         end
+        %}
         
         features_matrix = vertcat(features_matrix,features);
-        
     end
     extracted = features_matrix;
 end
