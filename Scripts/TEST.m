@@ -21,7 +21,7 @@ disp('Applying car...')
 signal = car(signal);
 
 downfactor = 8;
-fprintf('Downsampling : Factor %0.5f',downfactor)
+disp(fprintf('Downsampling : Factor %0.5f',downfactor))
 [header_down,signal_down] = downsampling(header,signal,downfactor);
 low = 1;
 high = 40;
