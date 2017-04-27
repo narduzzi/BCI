@@ -1,2 +1,5 @@
 *.bdf
+*.mat
+Recordings/*.mat
+Scripts/*.mat
 Scripts/data_simon1.mat
