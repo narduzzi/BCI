@@ -6,15 +6,8 @@ function [easy, hard_assist, hard_noassist] = partitioning2(header, signal_filte
 
 trajectories_diff = text2matrix(text);
 
-pos_trigger_begin = ceil(header.EVENT.POS(4)/8);
-begin = ceil(header.EVENT.POS(find(header.EVENT.TYP == 1))/8)';
-begin(1) = [];
-pos_trigger_begin = [pos_trigger_begin begin];
-pos_trigger_end = ceil(header.EVENT.POS(1108)/8);
-term = ceil(header.EVENT.POS(find(header.EVENT.TYP == 255))/8)';
-term(end) = [];
-pos_trigger_end = [term pos_trigger_end];
-
+pos_trigger_begin = header.EVENT.POS(find(header.EVENT.TYP == 1)+2)';
+pos_trigger_end = header.EVENT.POS(find(header.EVENT.TYP == 255)-2)';
 
 easy = [];
 hard_assist = [];
@@ -24,8 +17,9 @@ seperation = ones(size(signal_filtered,1),1) * 1e4;
 easy = [];
 hard_assist = [];
 hard_noassist = [];
-for i = 1:length(trajectories_diff)
+for i = 1:15
     if trajectories_diff(i) == 0 
+        i
             easy = [easy signal_filtered(:,pos_trigger_begin(i):pos_trigger_end(i)) seperation];
     elseif trajectories_diff(i) == 1
             hard_assist = [hard_assist signal_filtered(:,pos_trigger_begin(i):pos_trigger_end(i)) seperation];
