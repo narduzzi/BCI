@@ -19,7 +19,6 @@ hard_assist = [];
 hard_noassist = [];
 for i = 1:15
     if trajectories_diff(i) == 0 
-        i
             easy = [easy signal_filtered(:,pos_trigger_begin(i):pos_trigger_end(i)) seperation];
     elseif trajectories_diff(i) == 1
             hard_assist = [hard_assist signal_filtered(:,pos_trigger_begin(i):pos_trigger_end(i)) seperation];
