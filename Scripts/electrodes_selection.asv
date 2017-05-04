@@ -1,0 +1,7 @@
+function data=electrodes_selection(data,label)
+
+idx=index_of_electrodes(label);
+
+data=matrix(idx,:);
+
+end
