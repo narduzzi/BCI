@@ -1,7 +1,7 @@
 addpath(genpath('..\Recordings'));
 path='Recordings/ad3_08032017/biosemi/ad3_08032017.bdf';
 text='Recordings/ad3_08032017/unity/ad3_08032017_ses_1_condition.txt';
-
+%{
 %[easy,hard_assist,hard_noassist,features_extracted] = main_eeg(path,8,1,40,4,text);
 
 rawsignal = path;
@@ -38,10 +38,11 @@ window_size = 50;
 step_size = 2;
 features_extracted = features_extraction(easy,hard_noassist,hard_assist,header,window_size,step_size);
 
-
+%}
 
 %%%%%%%%%%%%%%%
-
+shuffledArray = features_extracted(randperm(size(features_extracted,1)),:);
+save('shuffled_features_extracted_2241fft_60000.mat','shuffledArray');
 
 easy_t = easy';
 S = size(easy_t);
