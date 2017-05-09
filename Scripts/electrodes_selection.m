@@ -1,10 +1,10 @@
-function [data, new_header]=electrodes_selection(signal,header,label)
+function [new_signal, new_header]=electrodes_selection(signal,header,label)
 %select electrodes of interest
 %INPUT : signal, header, label
-%OUTPUT : data is the signal for each electrodes selected
+%OUTPUT : new_signal and new_header
 
 idx=index_of_electrodes(label,header);
 
-data=signal(idx,:);
+new_signal=signal(idx,:);
 new_header=header(idx,:);
 end
