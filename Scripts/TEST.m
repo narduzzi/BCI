@@ -1,3 +1,7 @@
+close all;
+clear all;
+clc;
+
 addpath(genpath('..\Recordings'));
 path='Recordings/ad3_08032017/biosemi/ad3_08032017.bdf';
 text='Recordings/ad3_08032017/unity/ad3_08032017_ses_1_condition.txt';
@@ -18,7 +22,7 @@ signal = signal';
 %channel selection
 signal = signal(1:64,:);
 disp('Applying car...')
-signal = car(signal);
+%signal = car(signal);
 
 downfactor = 8;
 disp(fprintf('Downsampling : Factor %0.5f',downfactor))
@@ -33,16 +37,21 @@ signal_filtered = band_filter(low,high,order,Fs,signal_down);
 disp('Partitioning filtering...')
 [easy,hard_assist,hard_noassist] = partitioning(header_down,signal_filtered,text);
 
+disp('Selecting electodes...')
+centered_electrodes = load('25_centered_electrodes.mat');
+[indices] = index_of_electrodes(centered_electrodes.label,header_down);
+indices %should be 5,4,38
+
 disp('Feature extraction...(FOR NOW INVALID)')
-window_size = 50;
-step_size = 2;
-features_extracted = features_extraction(easy,hard_noassist,hard_assist,header,window_size,step_size);
+window_size = 100;
+step_size = 50;
+features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),hard_assist(indices,:),header,window_size,step_size);
 
 %}
-
+save('features_extracted_25_100_50','features_extracted')
 %%%%%%%%%%%%%%%
 shuffledArray = features_extracted(randperm(size(features_extracted,1)),:);
-save('shuffled_features_extracted_2241fft_60000.mat','shuffledArray');
+%save('shuffled_features_extracted_25_electrodes.mat','shuffledArray');
 
 easy_t = easy';
 S = size(easy_t);
