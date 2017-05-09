@@ -45,10 +45,11 @@ indices %should be 5,4,38
 disp('Feature extraction...(FOR NOW INVALID)')
 window_size = 100;
 step_size = 50;
-features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),hard_assist(indices,:),header,window_size,step_size);
+%features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),hard_assist(indices,:),header,window_size,step_size);
+features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),-1,header,window_size,step_size);
 
 %}
-save('features_extracted_25_100_50','features_extracted')
+save('features_extracted_25_100_50_EH','features_extracted')
 %%%%%%%%%%%%%%%
 shuffledArray = features_extracted(randperm(size(features_extracted,1)),:);
 %save('shuffled_features_extracted_25_electrodes.mat','shuffledArray');
