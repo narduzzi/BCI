@@ -9,7 +9,6 @@ function [easy, hard_assist, hard_noassist] = partitioning(header, signal_filter
         with_marker = true;
     end
     
-    
     trajectories_diff = text2matrix(text);
 
     pos_trigger_begin = ceil(header.EVENT.POS(4));

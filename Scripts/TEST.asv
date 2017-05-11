@@ -27,9 +27,9 @@ signal = signal';
 signal = signal(1:64,:);
 
 %%
-disp('Applying car...');
+disp('Applying car...')
 signal = car(signal);
-disp('CAR done.');
+disp('CAR
 %%
 downfactor = 8;
 disp(fprintf('Downsampling : Factor %0.5f',downfactor))

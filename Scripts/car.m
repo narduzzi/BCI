@@ -5,14 +5,17 @@ function [ signal ] = car( signal)
 % electrodes channels in the 64 first lines of the variable "signal". 
 
 
-col = length(signal(1,:));
+    col = length(signal(1,:));
 
-for i=1:col
-    mean_signal = mean(signal(1:64,i));
-    for j=1:64
-        signal(j,i) = signal(j,i)-mean_signal;
+    for i=1:col
+        mean_signal = mean(signal(:,i));
+            %{
+            for j=1:64
+                signal(j,i) = signal(j,i)-mean_signal;
+            end
+            %}
+        signal(:,i) = signal(:,i)-mean_signal;
     end
-end
 
 end
 
