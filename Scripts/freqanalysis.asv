@@ -3,8 +3,7 @@ function freqanalysis(signal_down,condition_text)
 %restrict the number of electrodes to 2extract the trajectories with their 
 %conditions and then perform fft and  filtering to see alpha and beta bands
 %on each trajectory on different plots
-% It takes as Input the signal down sampled and the file texted where the
-% the difficulty labels are stored 
+% It takes as Input the signal down samp
 
 %%
 close all
