@@ -1,35 +1,27 @@
 function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
     shape = size(matrix);
     N = shape(2);
-    sizeidx = round(N/windows_size)+1;
-    plotting = false;
-    num_electrodes = shape(1);
     
     features_matrix = [];
     
     str_f = sprintf('Features for difficulty %0.5f',difficulty);
 
     step_size = windows_size/2.0;
+    sizeidx = round(N/step_size)+1;
     
     %Foreach window, extract feature
     for i=0:sizeidx
+        startidx = (i*step_size+1);
         endidx = (i*step_size+windows_size);
         if(endidx>N)
-            endidx = N;
-        end
-        
-        startidx = (i*step_size+1);
-        if(startidx>endidx-1)
             break;
         end
         
-        shape = size(matrix);
         index_of_trajectory = shape(1);
         last_electrode_indice = shape(1)-1;
         
         signal = matrix(1:last_electrode_indice,startidx:endidx);
-        trajectory_num = max(matrix(index_of_trajectory,startidx:startidx));
-        
+        trajectory_num = matrix(index_of_trajectory,startidx:startidx);
         
         SS = size(signal);
         if((SS(1)==SS(2)) && (SS(1)==1))

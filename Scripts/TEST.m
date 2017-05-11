@@ -43,7 +43,7 @@ signal_filtered = band_filter(low,high,order,Fs,signal_down);
 
 %%
 disp('Partitioning filtering...')
-[easy,hard_assist,hard_noassist] = partitioning(header_down,signal_filtered,text,true);
+[easy,hard_assist,hard_noassist] = partitioning2(header_down,signal_filtered,text);
 
 %%
 disp('Selecting electodes...')
