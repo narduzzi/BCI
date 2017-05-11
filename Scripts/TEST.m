@@ -52,11 +52,17 @@ centered_electrodes = load('25_centered_electrodes.mat');
 indices %should be 5,4,38
 
 %%
-disp('Feature extraction...(FOR NOW INVALID)')
+disp('Feature extraction...')
 window_size = 100;
 step_size = window_size/2;
 %features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),hard_assist(indices,:),header,window_size,step_size);
 features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),-1,header,window_size,step_size);
+%%
+disp('Create train and test folds...');
+[train,test] = create_folds(features_extracted,2);
+
+
+
 
 %%
 %}
