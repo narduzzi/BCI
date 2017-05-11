@@ -22,6 +22,11 @@ idx_hard_noassist = [idx_hard_noassist find(hard_noassist == 1e4)];
 Fs = 256;
 vars = [];
 moy = [];
+%Compute the success rate 
+trajectories_diff = text2matrix(condition_text);
+[matrix_success, rate_success] = user_performance(header_down.EVENT.TYP);
+easy_success = rate_success(trajectories_diff==0);
+hard_success = rate_success(trajectories_diff == 2);
 %%
 %Frequency representation
 figure(1)
@@ -63,6 +68,14 @@ for i = 1:length(idx_easy)-1
     legend('Easy','Hard')
     title(['Frequency representation of trajectory' int2str(i)])
 end
+subplot(3,2,6);
+trials = [ 1 2 3 4 5];
+plot(trials,easy_success)
+hold on
+plot(trials,hard_success)
+legend('easy','hard')
+xlabel('Trials')
+ylabel('Success rate')
 
 figure(2)
 Y = fft(condition);
@@ -78,7 +91,6 @@ xlabel('f (Hz)')
 ylabel('|P1(f)|')
 
 figure(3)
-trials = [ 1 2 3 4 5];
 plot(trials,vars(1,:));
 hold on;
 plot(trials,vars(2,:));
@@ -87,7 +99,6 @@ title('Variance of the trajectories signal')
 xlabel('Trajectories');
 ylabel('Variance')
 figure(4)
-trials = [ 1 2 3 4 5];
 plot(trials,moy(1,:));
 hold on;
 plot(trials,moy(2,:));
@@ -124,6 +135,8 @@ for i = 1:length(idx_easy)-1
     s_mavg = filter(ones(1, window_size)/window_size, 1, P1);
     plot(f,s_mavg);
     axis(axis_size_alpha);
+    xlabel('f (Hz)')
+    ylabel('|P1(f)|')
     hold on
     
     %hard
@@ -139,14 +152,27 @@ for i = 1:length(idx_easy)-1
     subplot(3,2,i);
     s_mavg = filter(ones(1, window_size)/window_size, 1, P1);
     plot(f,s_mavg);
+    xlabel('f (Hz)')
+    ylabel('|P1(f)|')
     axis(axis_size_alpha);
     legend('Easy','Hard');
     title(['Alpha band of trajectory' int2str(i)]);
 end
+
+subplot(3,2,6);
+plot(trials,easy_success)
+hold on
+plot(trials,hard_success)
+legend('easy','hard')
+xlabel('Trials')
+ylabel('Success rate')
+title('Success rate of trajectories per difficulty')
+
 figure(6)
 window_size = 256;
 s_mavg = filter(ones(1, window_size)/window_size, 1, condition_filtered);
 plot(s_mavg);
+
 %%
 %beta waves
 low = 12.5;
@@ -170,6 +196,8 @@ for i = 1:length(idx_easy)-1
     subplot(3,2,i);
     s_mavg = filter(ones(1, window_size)/window_size, 1, P1);
     plot(f,s_mavg);
+    xlabel('f (Hz)')
+    ylabel('|P1(f)|')
     axis(axis_size_beta);
     hold on
     
@@ -186,7 +214,18 @@ for i = 1:length(idx_easy)-1
     subplot(3,2,i);
     s_mavg = filter(ones(1, window_size)/window_size, 1, P1);
     plot(f,s_mavg);
+    xlabel('f (Hz)')
+    ylabel('|P1(f)|')
     axis(axis_size_beta);
     legend('Easy','Hard');
     title(['Beta band trajectory' int2str(i)])
 end
+
+subplot(3,2,6);
+plot(trials,easy_success)
+hold on
+plot(trials,hard_success)
+legend('easy','hard')
+xlabel('Trials')
+ylabel('Success rate')
+title('Success rate of trajectories per difficulty')
