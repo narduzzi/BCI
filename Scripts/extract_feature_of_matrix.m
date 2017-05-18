@@ -6,13 +6,12 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
     
     str_f = sprintf('Features for difficulty %0.5f',difficulty);
 
-    step_size = windows_size/2.0;
-    sizeidx = round(N/step_size)+1;
+    sizeidx = round(N/windows_size)+1;
     
     %Foreach window, extract feature
     for i=0:sizeidx
-        startidx = (i*step_size+1);
-        endidx = (i*step_size+windows_size);
+        startidx = (i*windows_size+1);
+        endidx = startidx+windows_size;
         if(endidx>N)
             break;
         end
