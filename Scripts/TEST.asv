@@ -61,25 +61,24 @@ features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:
 
 disp('Evaluating performances : ');
 train_errors = [];
-test_errors = [];
+t
 for traj = 0:4
     [train_labels,train_features,test_labels,test_features] = create_folds(features_extracted,traj);
     SVMModel = fitcsvm(train_features,train_labels,'KernelFunction','linear');
+    disp('Model trained.');
     
     [predicted_train,score] = predict(SVMModel,train_features);
     [predicted_labels,score] = predict(SVMModel,test_features);
     
-    [train_err] = classerror(train_labels,predicted_train);
-    [test_err] = classerror(test_labels,predicted_labels);
-    fprintf('Train Error : %0.3f\t',train_err);
-    fprintf('Test Error : %0.3f\n ',test_err);
-    
-    train_errors = horzcat(train_errors,train_err);
-    test_errors = horzcat(test_errors,test_err);
+    train_err = classerror(train_labels,predicted_train);
+    test_err = classerror(test_labels,predicted_labels);
+    disp(fprintf('Train Error : Factor %0.3f',train_err(0)))
+    disp(fprintf('Test Error : Factor %0.3f',test_err(0)))
+    errors = vertcat(errors);
 end
 disp('====Evaluation finished====');
-fprintf('Mean Train Error : %0.3f\t',mean(train_errors));
-fprintf('Mean Test Error : %0.3f\n',mean(test_errors));
+disp(fprintf('General performance : %0.3f',mean(errors)));
+
     
 
 
