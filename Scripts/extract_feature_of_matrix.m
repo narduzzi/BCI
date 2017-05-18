@@ -53,21 +53,21 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         
         %extract statistics
         statistics = [];
-        smin = min(signal);
-        smean = mean(signal);
-        smedian = median(signal);
-        smax = max(signal);
-        svar = var(signal);
-        smost_frequent = mode(signal);
-        sdev = std(signal);
+        smin = min(signal,[],2);
+        smean = mean(signal,2);
+        smedian = median(signal,2);
+        smax = max(signal,[],2);
+        svar = var(signal,[],2);
+        smost_frequent = mode(signal,2);
+        sdev = std(signal,[],2);
         
-        statistics(1,:) = smin;
-        statistics(2,:) = smean;
-        statistics(3,:) = smedian;
-       	statistics(4,:) = smax;
-        statistics(5,:) = svar;
-        statistics(6,:) = smost_frequent;
-        statistics(7,:) = sdev;
+        statistics(1,:) = smin';
+        statistics(2,:) = smean';
+        statistics(3,:) = smedian';
+       	statistics(4,:) = smax';
+        statistics(5,:) = svar';
+        statistics(6,:) = smost_frequent';
+        statistics(7,:) = sdev';
         
         labels_stat = {'min','mean','median','max','var','most frequent value','dev'};
         
