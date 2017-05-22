@@ -14,7 +14,7 @@ text=strcat('Recordings/',recording_session,user,'/unity/',recording_session,'_s
 rawsignal = path;
 downfactor = 8;
 low=1;
-hig=40;
+high=40;
 order=4;
 
 %%
