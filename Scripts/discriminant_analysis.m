@@ -1,4 +1,4 @@
-function [ classifier, cv_error ] = discriminant_analysis( data, nclasses)
+function [ classifier, cv_error ] = discriminant_analysis(data,nclasses)
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
 
