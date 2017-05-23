@@ -5,13 +5,12 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
     features_matrix = [];
     
     str_f = sprintf('Features for difficulty %0.5f',difficulty);
-
     sizeidx = round(N/windows_size)+1;
     
     %Foreach window, extract feature
     for i=0:sizeidx
-        startidx = (i*windows_size+1);
-        endidx = startidx+windows_size;
+        startidx = i*windows_size+1;
+        endidx = startidx+windows_size-1;
         if(endidx>N)
             break;
         end
@@ -41,8 +40,12 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         
         s = size(frequency_coeff);
         new_size = [1,s(1)*s(2)];
+%         freq_coeff = [];
+%         for i=1:last_electrode_indice
+%             freq_coeff = [freq_coeff frequency_coeff(i,:)];
+%         end
         frequency_coeff = reshape(frequency_coeff,new_size);
-        
+
         %{
         %extract energy
         energy = periodogram(signal);
@@ -60,7 +63,9 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         svar = var(signal,[],2);
         smost_frequent = mode(signal,2);
         sdev = std(signal,[],2);
-        
+        mav = MAV(signal);
+        wl = wavelength(signal);
+        zc = zerocross(signal);
         statistics(1,:) = smin';
         statistics(2,:) = smean';
         statistics(3,:) = smedian';
@@ -68,6 +73,10 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         statistics(5,:) = svar';
         statistics(6,:) = smost_frequent';
         statistics(7,:) = sdev';
+        statistics(7,:) = sdev';
+        statistics(8,:) = mav';
+        statistics(9,:) = wl';        
+        statistics(10,:) = zc';
         
         labels_stat = {'min','mean','median','max','var','most frequent value','dev'};
         
@@ -75,9 +84,9 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         new_size = [1, s(1)*s(2)];
         statistics = reshape(statistics,new_size);
 
-        features = [difficulty trajectory_num frequency_coeff ];
+%         features = [difficulty trajectory_num statistics];
+        features = [difficulty trajectory_num frequency_coeff];
 
-        
         features_matrix = vertcat(features_matrix,features);
     end
     extracted = features_matrix;
