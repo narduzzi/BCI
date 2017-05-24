@@ -9,7 +9,9 @@ function freqanalysis(signal_down,condition_text)
 %%
 close all
 load(signal_down);
-signal_filtered =  band_filter(1,40,5,256,signal_down);
+
+%%
+signal_filtered = band_filter(1,40,5,256,signal_down);
 centered_electrodes = load('25_centered_electrodes.mat');
 [indices] = index_of_electrodes(centered_electrodes.label,header_down.Label);
 signal25  = signal_filtered(indices,:);
@@ -32,6 +34,7 @@ hard_success = rate_success(trajectories_diff == 2);
 figure(1)
 for i = 1:length(idx_easy)-1
     condition = easy(idx_easy(i)+1:idx_easy(i+1)-1);
+    length_easy(i) = length(condition);
     L = length(condition);
     Y = fft(condition);
     P2 = abs(Y/L);
@@ -50,6 +53,7 @@ for i = 1:length(idx_easy)-1
     hold on
     %hard
     condition = hard_noassist(idx_hard_noassist(i)+1:idx_hard_noassist(i+1)-1);
+    length_hard(i) = length(condition);
     L = length(condition);
     Y = fft(condition);
     P2 = abs(Y/L);
@@ -229,3 +233,104 @@ legend('easy','hard')
 xlabel('Trials')
 ylabel('Success rate')
 title('Success rate of trajectories per difficulty')
+
+%%
+%Compute the spectrum per average condition for the 64 electrodes 
+min_easy = min(length_easy);
+min_hard = min(length_hard);
+[easy hard_assist hard_noassist] = partitioning2(header_down,signal_filtered,condition_text);
+mat_easy = [];
+mat_hard = [];
+
+for i=1:64
+    f_easy = [];
+    s_easy = [];
+    condition_easy =[];
+    f_hard = [];
+    s_hard = [];
+    condition_hard =[];
+    i
+    if i ==6
+        caca=1;
+    end
+    for j=1:5
+        condition_easy = easy(i,idx_easy(j)+1:idx_easy(j+1)-1);
+        condition_easy = condition_easy(1:min_easy);
+        L = length(condition_easy);
+        Y = fft(condition_easy);
+        P2 = abs(Y/L);
+        P1 = P2(1:L/2+1);
+        P1(2:end-1) = 2*P1(2:end-1);
+        f_easy(j,:) = Fs*(0:(L/2))/L;
+        window_size = 50;
+        s_mavg_easy(j,:) = filter(ones(1, window_size)/window_size, 1, P1);
+        
+        condition_hard = hard_noassist(i,idx_hard_noassist(j)+1:idx_hard_noassist(j+1)-1);
+        condition_hard = condition_hard(1:min_hard);
+        L = length(condition_hard);
+        Y = fft(condition_hard);
+        P2 = abs(Y/L);
+        P1 = P2(1:L/2+1);
+        P1(2:end-1) = 2*P1(2:end-1);
+        f_hard(j,:) = Fs*(0:(L/2))/L;
+        window_size = 50;
+        s_mavg_hard(j,:) = filter(ones(1, window_size)/window_size, 1, P1);
+    end
+    electrode_freqs_easy(i,:) = mean(f_easy,1);
+    electrode_power_easy(i,:) = mean(s_mavg_easy,1);
+    electrode_freqs_hard(i,:) = mean(f_hard,1);
+    electrode_power_hard(i,:) = mean(s_mavg_hard,1);
+end
+figure(8)
+for i=1:16
+    subplot(4,4,i)
+    plot(electrode_freqs_easy(i,:),electrode_power_easy(i,:))
+    hold on
+    plot(electrode_freqs_hard(i,:),electrode_power_hard(i,:))
+    xlabel('f (Hz)')
+    ylabel('|P1(f)|')
+    axis([0 55 0 0.7]);
+    legend('Easy','Hard');
+    title(['Power spectrum electrode' int2str(i)])
+end
+
+figure(9)
+for i=1:16
+    subplot(4,4,i)
+    plot(electrode_freqs_easy(i+16,:),electrode_power_easy(i+16,:))
+    hold on
+    plot(electrode_freqs_hard(i,:),electrode_power_hard(i,:))
+    xlabel('f (Hz)')
+    ylabel('|P1(f)|')
+    axis([0 55 0 0.7]);
+    legend('Easy','Hard');
+    title(['Power spectrum electrode' int2str(i+16)])
+end
+
+figure(10)
+for i=1:16
+    subplot(4,4,i)
+    plot(electrode_freqs_easy(i+32,:),electrode_power_easy(i+32,:))
+    hold on
+    plot(electrode_freqs_hard(i,:),electrode_power_hard(i,:))
+    xlabel('f (Hz)')
+    ylabel('|P1(f)|')
+    axis([0 55 0 0.7]);
+    legend('Easy','Hard');
+    title(['Power spectrum electrode' int2str(i+32)])
+end
+
+figure(11)
+for i=1:16
+    subplot(4,4,i)
+    plot(electrode_freqs_easy(i+48,:),electrode_power_easy(i+48,:))
+    hold on
+    plot(electrode_freqs_hard(i,:),electrode_power_hard(i,:))
+    xlabel('f (Hz)')
+    ylabel('|P1(f)|')
+    axis([0 55 0 0.7]);
+    legend('Easy','Hard');
+    title(['Power spectrum electrode' int2str(i+48)])
+end
+
+end
