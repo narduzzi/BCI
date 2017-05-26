@@ -66,17 +66,17 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         mav = MAV(signal);
         wl = wavelength(signal);
         zc = zerocross(signal);
-        statistics(1,:) = smin';
-        statistics(2,:) = smean';
-        statistics(3,:) = smedian';
-       	statistics(4,:) = smax';
-        statistics(5,:) = svar';
-        statistics(6,:) = smost_frequent';
-        statistics(7,:) = sdev';
-        statistics(7,:) = sdev';
-        statistics(8,:) = mav';
-        statistics(9,:) = wl';        
-        statistics(10,:) = zc';
+        statistics(1,:) = smean';
+        statistics(2,:) = smedian';
+        statistics(3,:) = svar';
+        statistics(4,:) = smost_frequent';
+        statistics(5,:) = sdev';
+        statistics(6,:) = mav';
+        statistics(7,:) = wl';        
+        statistics(8,:) = zc';
+        % Stats not appropriate
+%         statistics(9,:) = smax';
+%         statistics(10,:) = smin';
         
         labels_stat = {'min','mean','median','max','var','most frequent value','dev'};
         
@@ -85,7 +85,7 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         statistics = reshape(statistics,new_size);
 
 %         features = [difficulty trajectory_num statistics];
-        features = [difficulty trajectory_num frequency_coeff];
+        features = [difficulty trajectory_num frequency_coeff statistics];
 
         features_matrix = vertcat(features_matrix,features);
     end
