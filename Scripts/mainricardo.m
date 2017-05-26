@@ -5,7 +5,7 @@ clc
 
 %%
 
-load('data_simon2.mat')
+load('data_omar1.mat')
 downfactor = 8;
 low=1;
 high=40;
@@ -14,13 +14,13 @@ Fs = header_down.SampleRate/downfactor;
 signal_filtered = band_filter(low,high,order,Fs,signal_down);
 
 %%
-text = 'data_simon1_ses_1_condition.txt';
+text = 'data_omar1_ses_1_condition.txt';
 [easy,hard_assist,hard_noassist] = partitioning2(header_down,signal_filtered,text);
 
 %%
 centered_electrodes = load('25_centered_electrodes.mat');
 [indices] = index_of_electrodes(centered_electrodes.label,header_down);
-
+%indices = 1:64;
 %%
 window_size = 200;
 step_size = window_size/2;
@@ -29,9 +29,10 @@ features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:
 
 %%
 train_errors = [];
+
 test_errors = [];
 for traj = 0:4
-    [train_labels,train_features,test_labels,test_features] = create_folds(features_extracted,traj);
+    [train_labels,train_features,test_labels,test_features] = create_folds(features_selected,traj);
     classifier_lda = fitcdiscr(train_features, train_labels, 'DiscrimTyp', 'Linear', 'Prior', 'uniform');
     
     yhat_lda = predict(classifier_lda, train_features); 
@@ -51,7 +52,7 @@ fprintf('Mean Test Error : %0.3f\n',mean(test_errors));
 
 %% 
 [coeff, features_pca, variance] = pca(features_extracted(:,3:end));
-features_selected = [features_extracted(:,1:2) features_pca(:,1:8)];
+features_selected = [features_extracted(:,1:2) features_pca(:,1:20)];
 %features_selected = features_pca(:,1:876);
 
 
