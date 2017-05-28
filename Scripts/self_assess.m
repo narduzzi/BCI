@@ -1,4 +1,4 @@
-function self_assess( filename )
+function [easy, hard, hard_ass] = self_assess( filename )
 % Plot the boxplot of the difficulty perceived by the subject
 %   filename contains the name of the subject folder
 

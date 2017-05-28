@@ -1,8 +1,8 @@
-function trajectory_time( header, filename )
+function [time_easy, time_hardassist, time_hardnoassist, time_waypoint_easy, time_waypoint_hardassist, time_waypoint_hardnoassist] = trajectory_time( header, filename )
 % Calculate the time between the beginning and the end of each trajectory,
 % and the time between each waypoint. 
 %   header : the variable should not be downsampled (original header)
-%   filename: name of the file like "data_simon1" for example
+%   filename: name of the file like "simon1" for example
 % The function computes the mean time of trajectory for each condition and
 % then makes a boxplot for each condition. 
 % In the 2nd part, the function also computes the time between each
@@ -11,6 +11,7 @@ function trajectory_time( header, filename )
 
 % Retrieve the conditions
 file_cond = strcat(filename, '_ses_1_condition.txt');
+file_cond = strcat('data_', file_cond);
 condition = text2matrix(file_cond);
 
 % Part 1: Calculate the time of each trajectory

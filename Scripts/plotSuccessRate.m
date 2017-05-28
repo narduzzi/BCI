@@ -6,6 +6,7 @@ addpath('..\Recordings')
 
 % Get the trajectory conditions
 file_cond = strcat(filename, '_ses_1_condition.txt');
+file_cond = strcat('data_', file_cond);
 condition = text2matrix(file_cond);
 
 % Get success rate
