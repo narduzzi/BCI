@@ -5,7 +5,7 @@ clc
 
 %%
 
-load('data_loic1.mat')
+load('data_omar1.mat')
 downfactor = 8;
 low=1;
 high=40;
@@ -14,7 +14,7 @@ Fs = header_down.SampleRate/downfactor;
 signal_filtered = band_filter(low,high,order,Fs,signal_down);
 
 %%
-text = 'data_loic1_ses_1_condition.txt';
+text = 'data_omar1_ses_1_condition.txt';
 [easy,hard_assist,hard_noassist] = partitioning2(header_down,signal_filtered,text);
 
 %%
@@ -56,3 +56,4 @@ features_selected = [features_extracted(:,1:2) features_pca(:,1:20)];
 %features_selected = features_pca(:,1:876);
 
 
+%% Testing with 2nd se

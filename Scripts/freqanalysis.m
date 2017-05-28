@@ -12,7 +12,7 @@ close all
 %%
 signal_filtered = band_filter(1,40,5,256,signal_down);
 centered_electrodes = load('25_centered_electrodes.mat');
-[indices] = index_of_electrodes(centered_electrodes.label,header_down.Label);
+[indices] = index_of_electrodes(centered_electrodes.label,header_down);
 signal25  = signal_filtered(indices,:);
 signal_avg = mean(signal25,1);
 [easy hard_assist hard_noassist] = partitioning2(header_down,signal_avg,condition_text);

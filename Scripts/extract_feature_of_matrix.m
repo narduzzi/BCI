@@ -66,17 +66,17 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         mav = MAV(signal);
         wl = wavelength(signal);
         zc = zerocross(signal);
-        statistics(1,:) = smean';
-        statistics(2,:) = smedian';
-        statistics(3,:) = svar';
-        statistics(4,:) = smost_frequent';
-        statistics(5,:) = sdev';
-        statistics(6,:) = mav';
-        statistics(7,:) = wl';        
-        statistics(8,:) = zc';
+        statistics(1,:) = smedian';
+        statistics(2,:) = svar';
+        statistics(3,:) = sdev';
+        statistics(4,:) = mav';
+        statistics(5,:) = wl';        
+        statistics(6,:) = zc';
         % Stats not appropriate
-%         statistics(9,:) = smax';
-%         statistics(10,:) = smin';
+%         statistics(7,:) = smax';
+%         statistics(8,:) = smin';
+%         statistics(9,:) = smost_frequent';
+%         statistics(10,:) = smean';
         
         labels_stat = {'min','mean','median','max','var','most frequent value','dev'};
         
