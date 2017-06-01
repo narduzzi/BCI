@@ -208,6 +208,14 @@ end
 
 % !!! generate your feature vector, and also output whether there is artifact if you want
 function [feature, artifact] = fun_extract(user, eeg, baseline)
+    shape = size(eeg);
+    N = shape(2);
+    
+    features_matrix = [];
+
+    SS = size(signal);
+
+    features = [];
 
     max_freq = 35;
     L = length(eeg);
@@ -219,7 +227,14 @@ function [feature, artifact] = fun_extract(user, eeg, baseline)
     s = size(frequency_coeff);
     new_size = [1,s(1)*s(2)];
 
-    feature = reshape(frequency_coeff,new_size);
+
+    frequency_coeff = reshape(frequency_coeff,new_size);
+
+    features = [difficulty trajectory_num frequency_coeffs];
+
+    features_matrix = vertcat(features_matrix,features);
+    end
+    extracted = features_matrix;
 
 end
 
