@@ -85,6 +85,7 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         statistics = reshape(statistics,new_size);
 
 %         features = [difficulty trajectory_num statistics];
+        features = [difficulty trajectory_num frequency_coeff];
 
         features_matrix = vertcat(features_matrix,features);
     end
