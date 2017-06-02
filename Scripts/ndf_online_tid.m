@@ -200,10 +200,10 @@ end
 
 % !!! use artifact if you want
 function [baseline, artifact] = fun_getBaseline(user, eeg)
-
 end
 % !!! you can use artifact as another input
 function baseline = computeBaseline(baseline)
+
 end
 
 % !!! generate your feature vector, and also output whether there is artifact if you want
@@ -225,6 +225,7 @@ end
 
 % !!! It is suggested to output proability
 function [class, proab] = fun_classify(user, feature)
+    yhat = predict(classifier, test_set_unseen);
 end
 
 % !!!
@@ -236,7 +237,7 @@ end
 %	2: waypoint becomes larger
 function output = fun_integration(class, proab, output, artifact)
 if artifact
-    output = ?;
+    %output = ?;
     return;
 end
 % !!! IT IS STRONGLY RECOMMENDED TO SAVE YOUR THRESHOLD VALUE AS A FILE
