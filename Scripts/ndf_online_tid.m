@@ -200,9 +200,12 @@ end
 
 % !!! use artifact if you want
 function [baseline, artifact] = fun_getBaseline(user, eeg)
+    baseline = [];
+    artifact = [];
 end
 % !!! you can use artifact as another input
 function baseline = computeBaseline(baseline)
+    baseline = [];
 
 end
 
