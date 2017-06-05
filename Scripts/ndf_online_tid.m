@@ -126,7 +126,7 @@ try
         
         
 		%% !!! IMPLEMENT THIS FUNCTION% Classification
-        [class, proab] = fun_classify(user.classifier, feature);
+        [class, proab] = fun_classify(user, feature);
         
         % Final output (must be an integer)
 		%% !!! IMPLEMENT THIS FUNCTION
@@ -233,11 +233,24 @@ end
 
 % !!! It is suggested to output proability
 function [class, proab] = fun_classify(user, feature)
-    mdlSVM = fitPosterior(SVMModel);
-    [~,score_svm] = resubPredict(mdlSVM);
-    class = predict(classifier, feature);
-    proab = score_svm;
+    SVMClassifier = user.SVM_model;
+    LDAClassifier = user.LDA_model;
+
+    featuresSVM = feature(user.selected_features_SVM);
+    featuresLDA = features(user.selected_features_LDA);
+
+    [svm_y,svm_score] = predict(SVMClassifier,featuresSVM);
+    [lda_y,lda_score,lda_cost] = predict(LDAClassifier,featuresLDA);
     
+    proab1 = (svm_score(1)+lda_score(1))*0.5;
+    proab2 = (svm_score(2)+lda_score(2))*0.5;
+    
+    if(proab1>proab2)
+        class = 0;
+    else
+        class = 1;
+    end
+        proab = proab1;
 %     %Classifier lda of Simon
 %     class = predict(classifier_lda, feature(:,Simon_Model_LDA.selected_features)); 
 %     proab = 0.6;
@@ -263,7 +276,7 @@ function output = fun_integration(class, proab, output, artifact)
 %	Don't make the number of threshold too many, as file reading is time consuming.
 % Below is a very simple way to implement, you can see that input also has output. 
 % Therefore, it is possible to do something like IIR or nonlinear processing on the final output.
-%th = load('./threshold_integration');
+th = load('./threshold_integration');
 %For LDA % DQDA, Uncomment next line:
 %th [0.5 0.5];
 if proab >  th(1) 

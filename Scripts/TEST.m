@@ -126,17 +126,17 @@ SVMModel_Simon_287 = fitcsvm(train_features(:,selected_features),train_labels,'K
 disp('Training finished!');
 %%
 disp('Saving model...');
-%Simon_Model_284.classifier = SVMModel_Simon_284;
-Simon_Model_287.ranked = ranked;
-Simon_Model_287.nbfeatures = 287;
-Simon_Model_287.selected_features = selected_features;
-Simon_Model_287.window_size = window_size;
-Simon_Model_287.downsampling_factor = 8;
+%Simon_Model_287_struct.classifier = SVMModel_Simon_284;
+Simon_Model_287_struct.ranked = ranked';
+Simon_Model_287_struct.nbfeatures = 287;
+Simon_Model_287_struct.selected_features = selected_features';
+Simon_Model_287_struct.window_size = window_size;
+Simon_Model_287_struct.downsampling_factor = 8;
 disp('Model saved.');
 
 %%
 %Testing structure
-Simon_model_test = load('Models/Simon_Model_287_Classifier.mat');
+Simon_model_test_struct = load('Models/Simon_Model_287_struct.mat');
 %%
 classifier = Simon_model_test.SVMModel_Simon_287;
 [predicted_labels_2,score_2] = predict(classifier,train_features(:,selected_features));

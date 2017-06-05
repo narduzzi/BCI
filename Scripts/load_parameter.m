@@ -22,6 +22,17 @@ buffLength = 1.0; % buffer length (1.0 = 1-second) for both eeg and trigger. THI
 	%	The filter must be able to support step function OR you change the corresponding code in ndf_online_tid.m
 	%	Be aware of MATLAB VERSION. It is R2016b.
     
-user.pSepc.freqBand = ??
-user.chSel = ??
-user.classifier = ??
+user.pSepc.freqBand = [1,40];
+user.chSel = 64
+%SVM
+SVM_model_file = load('Models/Simon_Model_287_Classifier.mat');
+SVM_struct_file = load('Models/Simon_Model_287_struct.mat');
+%Saving to user
+user.SVM_model = SVM_model_file.SVMModel_Simon_287;
+user.selected_features_SVM = SVM_struct_file.selected_features;
+user.windows_size = SVM_struct_file.window_size;
+
+%COMPLETE FOR RICARDO
+
+
+
