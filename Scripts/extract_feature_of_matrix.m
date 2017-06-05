@@ -31,12 +31,13 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         %-----------------------------------
         
         %extract frequency coefficients
+        min_freq = 5;
         max_freq = 35;
         L = length(signal);
         n = 2^nextpow2(L);
         Y = fft(signal);
         P = abs(Y/n);
-        frequency_coeff = P(:,1:max_freq);
+        frequency_coeff = P(:,min_freq:max_freq);
         
         s = size(frequency_coeff);
         new_size = [1,s(1)*s(2)];

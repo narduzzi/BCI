@@ -17,3 +17,7 @@ buffLength = 1.0; % buffer length (1.0 = 1-second) for both eeg and trigger. THI
     % Prepare your spectral filter, if you need. 
 	%	The filter must be able to support step function OR you change the corresponding code in ndf_online_tid.m
 	%	Be aware of MATLAB VERSION. It is R2016b.
+    
+user.pSepc.freqBand = ??
+user.chSel = ??
+user.classifier = ??

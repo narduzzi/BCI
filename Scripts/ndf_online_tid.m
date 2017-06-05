@@ -211,19 +211,24 @@ end
 
 % !!! generate your feature vector, and also output whether there is artifact if you want
 function [feature, artifact] = fun_extract(user, eeg, baseline)
-
+    eeg = eeg';
+    window_size = user.window_size;
+    N = length(eeg);
+    eeg = eeg(:,N-window_size:N);
+    
+    min_freq = 5;
     max_freq = 35;
     L = length(eeg);
     n = 2^nextpow2(L);
     Y = fft(eeg);
     P = abs(Y/n);
-    frequency_coeff = P(:,1:max_freq);
+    frequency_coeff = P(:,min_freq:max_freq);
 
     s = size(frequency_coeff);
     new_size = [1,s(1)*s(2)];
 
     feature = reshape(frequency_coeff,new_size);
-
+    artifact = 0;
 end
 
 % !!! It is suggested to output proability
