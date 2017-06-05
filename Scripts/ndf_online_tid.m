@@ -228,6 +228,8 @@ end
 
 % !!! It is suggested to output proability
 function [class, proab] = fun_classify(user, feature)
+    mdlSVM = fitPosterior(SVMModel);
+    [~,score_svm] = resubPredict(mdlSVM);
     yhat = predict(classifier, test_set_unseen);
 end
 
