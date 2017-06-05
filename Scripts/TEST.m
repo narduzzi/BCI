@@ -3,8 +3,8 @@ clear all;
 clc;
 
 addpath(genpath('..\Recordings'));
-recording_session = 'ah2_31032017';
-user = '_simon1';
+recording_session = 'af6_15032017';
+user = '_loic1';
 
 path=strcat('Recordings/',recording_session,user,'/biosemi/data',user,'.bdf');
 text=strcat('Recordings/',recording_session,user,'/unity/',recording_session,'_ses_1_condition.txt');
@@ -27,14 +27,18 @@ signal = signal';
 signal = signal(1:64,:);
 
 %%
-disp('Applying car...');
-signal = car(signal);
-disp('CAR done.');
-%%
-downfactor = 8;
+downfactor = 4;
 disp(fprintf('Downsampling : Factor %0.5f',downfactor))
 [header_down,signal_down] = downsampling(header,signal,downfactor);
-low = 1;
+
+%%
+disp('Applying car...');
+%signal_filtered = car(signal_filtered);
+signal_down = car(signal_down);
+disp('CAR done.');
+
+%%
+low = 5;
 high = 40;
 order= 5;
 disp('Bandpass filtering...')
@@ -53,7 +57,7 @@ indices %should be 5,4,38
 
 %%
 disp('Feature extraction...')
-window_size = 200;
+window_size = 512;
 step_size = window_size/2;
 %features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),hard_assist(indices,:),header,window_size,step_size);
 features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),-1,header,window_size,step_size);
