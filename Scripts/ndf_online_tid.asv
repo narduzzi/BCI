@@ -251,7 +251,10 @@ end
 %	1: waypoint does not change
 %	2: waypoint becomes larger
 function output = fun_integration(class, proab, output, artifact)
-
+if artifact
+    %output = ?;
+    return;
+end
 % !!! IT IS STRONGLY RECOMMENDED TO SAVE YOUR THRESHOLD VALUE AS A FILE
 %	By doing so, we can save time when tuning the threshold during experiment.
 %	In other words, we don't need to stop the loop for just changing a threshold.
@@ -259,8 +262,8 @@ function output = fun_integration(class, proab, output, artifact)
 % Below is a very simple way to implement, you can see that input also has output. 
 % Therefore, it is possible to do something like IIR or nonlinear processing on the final output.
 %th = load('./threshold_integration');
-%For LDA % DQDA, Uncomment next line:
-%th [0.5 0.5];
+%For LDA % DQDA, Uncomm
+%
 if proab >  th(1) 
     output = 2;
 elseif proab < th(2)
