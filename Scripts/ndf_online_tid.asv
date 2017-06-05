@@ -211,24 +211,19 @@ end
 
 % !!! generate your feature vector, and also output whether there is artifact if you want
 function [feature, artifact] = fun_extract(user, eeg, baseline)
-    eeg = eeg';
-    window_size = user.window_size;
-    N = length(eeg);
-    eeg = eeg(:,N-window_size:N);
-    
-    min_freq = 5;
+
     max_freq = 35;
     L = length(eeg);
     n = 2^nextpow2(L);
     Y = fft(eeg);
     P = abs(Y/n);
-    frequency_coeff = P(:,min_freq:max_freq);
+    frequency_coeff = P(:,1:max_freq);
 
     s = size(frequency_coeff);
     new_size = [1,s(1)*s(2)];
 
     feature = reshape(frequency_coeff,new_size);
-    artifact = 0;
+
 end
 
 % !!! It is suggested to output proability
@@ -256,7 +251,10 @@ end
 %	1: waypoint does not change
 %	2: waypoint becomes larger
 function output = fun_integration(class, proab, output, artifact)
-
+if artifact
+    %output = ?;
+    return;
+end
 % !!! IT IS STRONGLY RECOMMENDED TO SAVE YOUR THRESHOLD VALUE AS A FILE
 %	By doing so, we can save time when tuning the threshold during experiment.
 %	In other words, we don't need to stop the loop for just changing a threshold.
@@ -264,8 +262,8 @@ function output = fun_integration(class, proab, output, artifact)
 % Below is a very simple way to implement, you can see that input also has output. 
 % Therefore, it is possible to do something like IIR or nonlinear processing on the final output.
 %th = load('./threshold_integration');
-%For LDA % DQDA, Uncomment next line:
-%th [0.5 0.5];
+%For LDA % DQDA, Uncomm
+%
 if proab >  th(1) 
     output = 2;
 elseif proab < th(2)
