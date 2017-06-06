@@ -29,8 +29,20 @@ SVM_model_file = load('Models/Simon_Model_287_Classifier.mat');
 SVM_struct_file = load('Models/Simon_Model_287_struct.mat');
 %Saving to user
 user.SVM_model = SVM_model_file.SVMModel_Simon_287;
-user.selected_features_SVM = SVM_struct_file.selected_features;
+user.SVM_selected_features = SVM_struct_file.selected_features';
 user.windows_size = SVM_struct_file.window_size;
+user.downsamping = SVM_struct_file.downsampling_factor;
+
+%LDA 
+LDA_struct_file = load('Models/Simon_Model_LDA_classifier.mat');
+user.LDA_model = LDA_struct_file.classifier_lda;
+user.LDA_selected_features = LDA_struct_file.Simon_Model_LDA.selected_features;
+
+%DQDA
+DQDA_struct_file = load('Models/Simon_Model_DQDA_classifier.mat');
+user.DQDA_model = DQDA_struct_file.classifier_dqda;
+user.DQDA_selected_featrues = DQDA_struct_file.Simon_Model_DQDA.selected_features;
+
 
 %COMPLETE FOR RICARDO
 

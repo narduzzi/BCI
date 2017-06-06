@@ -213,7 +213,7 @@ end
 function [feature, artifact] = fun_extract(user, eeg, baseline)
     eeg = eeg';
     window_size = user.window_size;
-    N = length(eeg);
+    N = length(eeg)*user.downsampling;
     eeg = eeg(:,N-window_size:N);
     
     min_freq = 5;
@@ -235,15 +235,18 @@ end
 function [class, proab] = fun_classify(user, feature)
     SVMClassifier = user.SVM_model;
     LDAClassifier = user.LDA_model;
+    DQDAClassifier = user.DQDA_model;
 
     featuresSVM = feature(user.selected_features_SVM);
     featuresLDA = features(user.selected_features_LDA);
+    featuresDQDA = features(user.selected_features_DQDA);
 
     [svm_y,svm_score] = predict(SVMClassifier,featuresSVM);
     [lda_y,lda_score,lda_cost] = predict(LDAClassifier,featuresLDA);
+    [dqda_y,dqda_score,dqda] = predict(DQDAClassifier,featuresDQDA);
     
-    proab1 = (svm_score(1)+lda_score(1))*0.5;
-    proab2 = (svm_score(2)+lda_score(2))*0.5;
+    proab1 = (svm_score(1)+lda_score(1)+dqda(1))*0.33;
+    proab2 = (svm_score(2)+lda_score(2)+dqda(2))*0.33;
     
     if(proab1>proab2)
         class = 0;
