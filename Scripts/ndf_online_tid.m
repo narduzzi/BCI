@@ -126,7 +126,7 @@ try
         
         
 		%% !!! IMPLEMENT THIS FUNCTION% Classification
-        [class, proab] = fun_classify(user.classifier, feature);
+        [class, proab] = fun_classify(user, feature);
         
         % Final output (must be an integer)
 		%% !!! IMPLEMENT THIS FUNCTION
@@ -211,28 +211,57 @@ end
 
 % !!! generate your feature vector, and also output whether there is artifact if you want
 function [feature, artifact] = fun_extract(user, eeg, baseline)
-
+    eeg = eeg';
+    window_size = user.window_size;
+    N = length(eeg)*user.downsampling;
+    eeg = eeg(:,N-window_size:N);
+    
+    min_freq = 5;
     max_freq = 35;
     L = length(eeg);
     n = 2^nextpow2(L);
     Y = fft(eeg);
     P = abs(Y/n);
-    frequency_coeff = P(:,1:max_freq);
+    frequency_coeff = P(:,min_freq:max_freq);
 
     s = size(frequency_coeff);
     new_size = [1,s(1)*s(2)];
 
     feature = reshape(frequency_coeff,new_size);
-
+    artifact = 0;
 end
 
 % !!! It is suggested to output proability
+<<<<<<< HEAD
 function [class, proab] = fun_classify(~, feature)
     mdlSVM = fitPosterior(SVMModel);
     [~,score_svm] = resubPredict(mdlSVM);
     class = predict(classifier, feature);
     proab = score_svm;
+=======
+function [class, proab] = fun_classify(user, feature)
+    SVMClassifier = user.SVM_model;
+    LDAClassifier = user.LDA_model;
+    DQDAClassifier = user.DQDA_model;
+
+    featuresSVM = feature(user.selected_features_SVM);
+    featuresLDA = features(user.selected_features_LDA);
+    featuresDQDA = features(user.selected_features_DQDA);
+
+    [svm_y,svm_score] = predict(SVMClassifier,featuresSVM);
+    [lda_y,lda_score,lda_cost] = predict(LDAClassifier,featuresLDA);
+    [dqda_y,dqda_score,dqda] = predict(DQDAClassifier,featuresDQDA);
     
+    proab1 = (svm_score(1)+lda_score(1)+dqda(1))*0.33;
+    proab2 = (svm_score(2)+lda_score(2)+dqda(2))*0.33;
+>>>>>>> origin/master
+    
+    if(proab1>proab2)
+        class = 0;
+    else
+        class = 1;
+    end
+        proab = proab1;
 %     %Classifier lda of Simon
 %     class = predict(classifier_lda, feature(:,Simon_Model_LDA.selected_features)); 
 %     proab = 0.6;
@@ -258,7 +287,7 @@ function output = fun_integration(class, proab, output, artifact)
 %	Don't make the number of threshold too many, as file reading is time consuming.
 % Below is a very simple way to implement, you can see that input also has output. 
 % Therefore, it is possible to do something like IIR or nonlinear processing on the final output.
-%th = load('./threshold_integration');
+th = load('./threshold_integration');
 %For LDA % DQDA, Uncomment next line:
 %th [0.5 0.5];
 if proab >  th(1) 

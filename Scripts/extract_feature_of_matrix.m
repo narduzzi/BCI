@@ -31,6 +31,7 @@ function extracted = extract_feature_of_matrix(matrix,windows_size,difficulty)
         %-----------------------------------
         
         %extract frequency coefficients
+        min_freq = 5;
         max_freq = 35;
         min_freq = 5;
         L = length(signal);
