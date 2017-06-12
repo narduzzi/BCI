@@ -232,13 +232,7 @@ function [feature, artifact] = fun_extract(user, eeg, baseline)
 end
 
 % !!! It is suggested to output proability
-<<<<<<< HEAD
-function [class, proab] = fun_classify(~, feature)
-    mdlSVM = fitPosterior(SVMModel);
-    [~,score_svm] = resubPredict(mdlSVM);
-    class = predict(classifier, feature);
-    proab = score_svm;
-=======
+
 function [class, proab] = fun_classify(user, feature)
     SVMClassifier = user.SVM_model;
     LDAClassifier = user.LDA_model;
@@ -254,8 +248,7 @@ function [class, proab] = fun_classify(user, feature)
     
     proab1 = (svm_score(1)+lda_score(1)+dqda(1))*0.33;
     proab2 = (svm_score(2)+lda_score(2)+dqda(2))*0.33;
->>>>>>> origin/master
-    
+   
     if(proab1>proab2)
         class = 0;
     else
