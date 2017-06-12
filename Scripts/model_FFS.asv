@@ -4,24 +4,24 @@ function [TRAIN_ERROR, TEST_ERROR,SELECTED] = model_FFS(features)
 
 opt = statset('Display','iter','MaxIter', 100);
 
-for traj=1:5
-    j = traj-1;
-    disp(['Cross validation fold number ' int2str(j)])
+for traj=0:4
+    j = traj+1;
+    disp(['Cross validation fold number ' int2str(traj)])
     %Determine the test and train tests
     disp('Evaluating Linear FFS...')
-    [train_labels,train_features,test_labels,test_features] = create_folds(features,j);
+    [train_labels,train_features,test_labels,test_features] = create_folds(features,traj);
     fun = @(xT,yT) (classerror(yT,predict(fitcdiscr(xT,yT,'discrimtype', 'Linear', 'Prior', 'uniform'), xT)));    
-    [selected_lda,hst_lda(traj)] = sequentialfs(fun,train_features,train_labels,'cv','none','options',opt);
-    valid_error_lda(traj) = hst_lda(traj).Crit(end);
+    [selected_lda,hst_lda(j)] = sequentialfs(fun,train_features,train_labels,'cv','none','options',opt);
+    valid_error_lda(j) = hst_lda(j).Crit(end);
     classifier_lda = fitcdiscr(train_features(:, selected_lda), train_labels, 'DiscrimTyp', 'Linear', 'Prior', 'uniform');
     yhat_lda = predict(classifier_lda, test_features(:,selected_lda));
-    testing_error_lda(traj) = classerror(test_labels, yhat_lda);
-    MODEL.SELECTED.lda{traj} = selected_lda;
+    testing_error_lda(j) = classerror(test_labels, yhat_lda);
+    MODEL.SELECTED.lda{j} = selected_lda;
     
     disp('Evaluating DiagLinear FFS...')
 %     fun = @(xT,yT,xt,yt) length(yt)*(classerror(yt,predict(fitcdiscr(xT,yT,'discrimtype', 'DiagLinear', 'Prior', 'uniform'), xt)));
     fun = @(xT,yT) (classerror(yT,predict(fitcdiscr(xT,yT,'discrimtype', 'DiagLinear', 'Prior', 'uniform'), xT)));
-    [selected_dlda,hst_dlda(traj)] = sequentialfs(fun,train_features,train_labels,'cv','none','options',opt);
+    [selected_dlda,hst_dlda(j)] = sequentialfs(fun,train_features,train_labels,'cv','none','options',opt);
     valid_error_dlda(traj) = hst_dlda(traj).Crit(end);
     classifier_dlda = fitcdiscr(train_features(:, selected_dlda), train_labels, 'DiscrimTyp', 'DiagLinear', 'Prior', 'uniform');
     yhat_dlda = predict(classifier_dlda, test_features(:,selected_dlda));

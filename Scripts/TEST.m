@@ -60,7 +60,16 @@ window_size = 256;
 step_size = window_size/2;
 %features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),hard_assist(indices,:),header,window_size,step_size);
 features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),-1,header,window_size,step_size);
+
 %%
+[TRAIN_ERROR, TEST_ERROR,SELECTED] = model_FFS(features_extracted);
+
+save('Results/FFS/Omar_TRAIN_ERROR.mat','TRAIN_ERROR');
+save('Results/FFS/Omar_TEST_ERROR.mat','TEST_ERROR');
+save('Results/FFS/Omar_SELECTED.mat','SELECTED');
+
+%%
+%{
 features = features_extracted(:,3:size(features_extracted,2));
 labels = features_extracted(:,1);
 K = 400
@@ -69,4 +78,4 @@ K = 400
 
 save('Results/NCA/Omar_TRAIN_ERROR_K400.mat','NCA_TRAIN_ERROR');
 save('Results/NCA/Omar_TEST_ERROR_K400.mat','NCA_TEST_ERROR');
-
+%}
