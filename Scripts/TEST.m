@@ -3,8 +3,8 @@ clear all;
 clc;
 
 addpath(genpath('..\Recordings'));
-recording_session = 'ah2_31032017';
-user = '_simon1';
+recording_session = 'ad6_10032017';
+user = '_omar1';
 
 path=strcat('Recordings/',recording_session,user,'/biosemi/data',user,'.bdf');
 text=strcat('Recordings/',recording_session,user,'/unity/',recording_session,'_ses_1_condition.txt');
@@ -67,6 +67,6 @@ K = 400
 
 [NCA_TRAIN_ERROR,NCA_TEST_ERROR] = models_evaluation(features_extracted,1000,K);
 
-save('Results/NCA/Simon_TRAIN_ERROR_K400.mat','NCA_TRAIN_ERROR');
-save('Results/NCA/Simon_TEST_ERROR_K400.mat','NCA_TEST_ERROR');
+save('Results/NCA/Omar_TRAIN_ERROR_K400.mat','NCA_TRAIN_ERROR');
+save('Results/NCA/Omar_TEST_ERROR_K400.mat','NCA_TEST_ERROR');
 
