@@ -252,6 +252,7 @@ function [feature, artifact] = fun_extract(user, eeg, baseline)
 end
 
 % !!! It is suggested to output proability
+
 function [class, proab] = fun_classify(user, feature)
     SVMClassifier = user.SVM_model;
     LDAClassifier = user.LDA_model;
@@ -261,7 +262,7 @@ function [class, proab] = fun_classify(user, feature)
     featuresLDA = feature(user.LDA_selected_features);
     featuresDQDA = feature(user.DQDA_selected_features);
 
-  %  [svm_y,svm_score] = predict(SVMClassifier,featuresSVM);
+  % [svm_y,svm_score] = predict(SVMClassifier,featuresSVM);
  %  [lda_y,lda_score,lda_cost] = predict(LDAClassifier,featuresLDA);
     [dqda_y,dqda_score] = predict(DQDAClassifier,featuresDQDA);
     
@@ -269,6 +270,7 @@ function [class, proab] = fun_classify(user, feature)
     %proab2 = (svm_score(2)+lda_score(2)+dqda(2))*0.33;
     proab1 =(dqda_score(1));
     proab2 = (dqda_score(2));
+
     if(proab1>proab2)
         class = 0;
     else

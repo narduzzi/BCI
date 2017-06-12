@@ -1,8 +1,9 @@
 function freqanalysis(signal_down,header_down,condition_text)
 %This function takes a down sampled signal, filter it between 1 and 40 Hz
-%restrict the number of electrodes to 2extract the trajectories with their 
+%restrict the number of electrodes to 64 extract the trajectories with their 
 %conditions and then perform fft and  filtering to see alpha and beta bands
-%on each trajectory on different plots
+%on each trajectory on different plots and on each electrodes with averaged
+%trajectories.
 % It takes as Input the signal down sampled and the file texted where the
 % the difficulty labels are stored 
 
@@ -11,10 +12,8 @@ close all
 
 %%
 signal_filtered = band_filter(1,40,5,256,signal_down);
-centered_electrodes = load('25_centered_electrodes.mat');
-[indices] = index_of_electrodes(centered_electrodes.label,header_down);
-signal25  = signal_filtered(indices,:);
-signal_avg = mean(signal25,1);
+signal64  = signal_filtered(1:64,:);
+signal_avg = mean(signal64,1);
 [easy hard_assist hard_noassist] = partitioning2(header_down,signal_avg,condition_text);
 idx_easy = 0;
 idx_easy = [idx_easy find(easy == 1e4)];
@@ -25,9 +24,6 @@ vars = [];
 moy = [];
 %Compute the success rate 
 trajectories_diff = text2matrix(condition_text);
-[matrix_success, rate_success] = user_performance(header_down.EVENT.TYP);
-easy_success = rate_success(trajectories_diff==0);
-hard_success = rate_success(trajectories_diff == 2);
 %%
 %Frequency representation
 figure(1)
@@ -37,9 +33,9 @@ for i = 1:length(idx_easy)-1
     L = length(condition);
     Y = fft(condition);
     P2 = abs(Y/L);
-    P1 = P2(1:L/2+1);
+    P1 = P2(1:floor(L/2)+1);
     P1(2:end-1) = 2*P1(2:end-1);
-    f = Fs*(0:(L/2))/L;
+    f = Fs*(0:floor(L/2))/L;
     subplot(3,2,i);
     window_size = 50;
     s_mavg = filter(ones(1,window_size)/window_size, 1, P1);
@@ -56,9 +52,9 @@ for i = 1:length(idx_easy)-1
     L = length(condition);
     Y = fft(condition);
     P2 = abs(Y/L);
-    P1 = P2(1:L/2+1);
+    P1 = P2(1:floor(L/2)+1);
     P1(2:end-1) = 2*P1(2:end-1);
-    f = Fs*(0:(L/2))/L;
+    f = Fs*(0:floor(L/2))/L;
     subplot(3,2,i);
     window_size = 50;
     s_mavg = filter(ones(1, window_size)/window_size, 1, P1);
@@ -71,21 +67,14 @@ for i = 1:length(idx_easy)-1
     legend('Easy','Hard')
     title(['Frequency representation of trajectory' int2str(i)])
 end
-subplot(3,2,6);
-trials = [ 1 2 3 4 5];
-plot(trials,easy_success)
-hold on
-plot(trials,hard_success)
-legend('easy','hard')
-xlabel('Trials')
-ylabel('Success rate')
+
 
 figure(2)
 Y = fft(condition);
 P2 = abs(Y/L);
-P1 = P2(1:L/2+1);
+P1 = P2(1:floor(L/2)+1);
 P1(2:end-1) = 2*P1(2:end-1);
-f = Fs*(0:(L/2))/L;
+f = Fs*(0:floor(L/2))/L;
 avg = 0.5;
 s_mavg = filter(ones(1, avg*Fs)/avg/Fs, 1, P1);
 plot(f,s_mavg)
@@ -109,9 +98,6 @@ legend('Easy','Hard');
 title('Average of the trajectories signal')
 xlabel('Trajectories');
 ylabel('Average')
-% hold on;
-% plot(trials,moy(3,:));
-% legend('easy','hard assist','hard');
 
 %%
 %Frequency seperation
@@ -130,9 +116,9 @@ for i = 1:length(idx_easy)-1
     L = length(condition_filtered);
     Y = fft(condition_filtered);
     P2 = abs(Y/L);
-    P1 = P2(1:L/2+1);
+    P1 = P2(1:floor(L/2)+1);
     P1(2:end-1) = 2*P1(2:end-1);
-    f = Fs*(0:(L/2))/L;
+    f = Fs*(0:floor(L/2))/L;
     axis(axis_size_alpha);
     subplot(3,2,i);
     s_mavg = filter(ones(1, window_size)/window_size, 1, P1);
@@ -148,9 +134,9 @@ for i = 1:length(idx_easy)-1
     L = length(condition_filtered);
     Y = fft(condition_filtered);
     P2 = abs(Y/L);
-    P1 = P2(1:L/2+1);
+    P1 = P2(1:floor(L/2)+1);
     P1(2:end-1) = 2*P1(2:end-1);
-    f = Fs*(0:(L/2))/L;
+    f = Fs*(0:floor(L/2))/L;
     axis(axis_size_alpha);
     subplot(3,2,i);
     s_mavg = filter(ones(1, window_size)/window_size, 1, P1);
@@ -162,14 +148,6 @@ for i = 1:length(idx_easy)-1
     title(['Alpha band of trajectory' int2str(i)]);
 end
 
-subplot(3,2,6);
-plot(trials,easy_success)
-hold on
-plot(trials,hard_success)
-legend('easy','hard')
-xlabel('Trials')
-ylabel('Success rate')
-title('Success rate of trajectories per difficulty')
 
 figure(6)
 window_size = 256;
@@ -192,9 +170,9 @@ for i = 1:length(idx_easy)-1
     L = length(condition_filtered);
     Y = fft(condition_filtered);
     P2 = abs(Y/L);
-    P1 = P2(1:L/2+1);
+    P1 = P2(1:floor(L/2)+1);
     P1(2:end-1) = 2*P1(2:end-1);
-    f = Fs*(0:(L/2))/L;
+    f = Fs*(0:floor(L/2))/L;
     axis(axis_size_beta);
     subplot(3,2,i);
     s_mavg = filter(ones(1, window_size)/window_size, 1, P1);
@@ -210,9 +188,9 @@ for i = 1:length(idx_easy)-1
     L = length(condition_filtered);
     Y = fft(condition_filtered);
     P2 = abs(Y/L);
-    P1 = P2(1:L/2+1);
+    P1 = P2(1:floor(L/2)+1);
     P1(2:end-1) = 2*P1(2:end-1);
-    f = Fs*(0:(L/2))/L;
+    f = Fs*(0:floor(L/2))/L;
     axis(axis_size_beta);
     subplot(3,2,i);
     s_mavg = filter(ones(1, window_size)/window_size, 1, P1);
@@ -224,14 +202,6 @@ for i = 1:length(idx_easy)-1
     title(['Beta band trajectory' int2str(i)])
 end
 
-subplot(3,2,6);
-plot(trials,easy_success)
-hold on
-plot(trials,hard_success)
-legend('easy','hard')
-xlabel('Trials')
-ylabel('Success rate')
-title('Success rate of trajectories per difficulty')
 
 %%
 %Compute the spectrum per average condition for the 64 electrodes 
@@ -248,10 +218,6 @@ for i=1:64
     f_hard = [];
     s_hard = [];
     condition_hard =[];
-    i
-    if i ==6
-        caca=1;
-    end
     for j=1:5
         condition_easy = easy(i,idx_easy(j)+1:idx_easy(j+1)-1);
         condition_easy = condition_easy(1:min_easy);

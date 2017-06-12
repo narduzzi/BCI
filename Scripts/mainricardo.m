@@ -5,16 +5,16 @@ clc
 
 %%
 
-load('data_simon1.mat')
+load('data_loic1.mat')
 downfactor = 8;
 low=1;
 high=40;
-order=4;
+order=5;
 Fs = header_down.SampleRate/downfactor;
 signal_filtered = band_filter(low,high,order,Fs,signal_down);
 
 %%
-text = 'data_simon1_ses_1_condition.txt';
+text = 'data_loic1_ses_1_condition.txt';
 [easy,hard_assist,hard_noassist] = partitioning2(header_down,signal_filtered,text);
 
 %%
@@ -26,13 +26,13 @@ indices = 1:64;
 indices = sort(indices);
 
 %%
-window_size = 200;
+window_size = 256;
 step_size = window_size/2;
 %features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),hard_assist(indices,:),header,window_size,step_size);
 features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),-1,header_down,window_size,step_size);
 
 %%
-discriminant_analysis(features_extracted,300);
+discriminant_analysis(features_extracted,1000);
 %%
 train_errors = [];
 
