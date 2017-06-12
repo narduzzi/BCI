@@ -22,16 +22,16 @@ buffLength = 1.0; % buffer length (1.0 = 1-second) for both eeg and trigger. THI
 	%	The filter must be able to support step function OR you change the corresponding code in ndf_online_tid.m
 	%	Be aware of MATLAB VERSION. It is R2016b.
     
-user.pSepc.freqBand = [1,40];
-user.chSel = 64
+user.pSpec.freqBand = [1,40];
+user.chSel = 64;
 %SVM
 SVM_model_file = load('Models/Simon_Model_287_Classifier.mat');
 SVM_struct_file = load('Models/Simon_Model_287_struct.mat');
 %Saving to user
 user.SVM_model = SVM_model_file.SVMModel_Simon_287;
-user.SVM_selected_features = SVM_struct_file.selected_features';
-user.windows_size = SVM_struct_file.window_size;
-user.downsamping = SVM_struct_file.downsampling_factor;
+user.SVM_selected_features = SVM_struct_file.Simon_Model_287_struct.selected_features';
+user.window_size = SVM_struct_file.Simon_Model_287_struct.window_size;
+user.downsampling = SVM_struct_file.Simon_Model_287_struct.downsampling_factor;
 
 %LDA 
 LDA_struct_file = load('Models/Simon_Model_LDA_classifier.mat');
@@ -41,7 +41,7 @@ user.LDA_selected_features = LDA_struct_file.Simon_Model_LDA.selected_features;
 %DQDA
 DQDA_struct_file = load('Models/Simon_Model_DQDA_classifier.mat');
 user.DQDA_model = DQDA_struct_file.classifier_dqda;
-user.DQDA_selected_featrues = DQDA_struct_file.Simon_Model_DQDA.selected_features;
+user.DQDA_selected_features = DQDA_struct_file.Simon_Model_DQDA.selected_features;
 
 
 %COMPLETE FOR RICARDO

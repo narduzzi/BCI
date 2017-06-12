@@ -8,7 +8,7 @@ if include
 end
 
 %!!!MODIFY THIS PART!!!%
-load_parameter; 
+load_ah2_parameter; 
 %!!!MODIFY THIS PART!!!%
 
 % !!! MODIFY IF YOU KNOW WHAT YOU ARE DOING
@@ -55,7 +55,7 @@ try
 	disp('[ndf_example_IC] Receiving ACK...');
 	[ndf.conf, ndf.size] = ndf_ack(ndf.sink);
     ndf.timePerLoop = (ndf.conf.samples/ndf.conf.sf);
-    timeTol = ndf.timePerLoop * 0.01; % time tolerance
+    timeTol = ndf.timePerLoop * 0.05; % time tolerance
     % for saving time when a quick modification is needed
     terminate = onCleanup(@() closeLoop(ndf, ids, idm, ID));
         
@@ -64,6 +64,14 @@ try
 
     % Buffer for trigger channel
     buffer.tri = ndf_ringbuffer(ndf.conf.sf, ndf.conf.tri_channels, buffLength);
+    
+    
+    user.filterSpec = fdesign.bandpass('N,F3dB1,F3dB2', 6, 1, 40, 2048);
+    user.Filter = design(user.filterSpec, 'butter', 'systemobject', true);
+    
+    
+    
+    
     
     % Initialize the final output
     output = 0;
@@ -122,7 +130,8 @@ try
         
         % Feature extraction
 		%% !!! IMPLEMENT THIS FUNCTION
-        [feature, artifact] = fun_extract(user, buffer.eeg, baseline(:, 1, :));
+%         [feature, artifact] = fun_extract(user, buffer.eeg, baseline(:, 1, :));
+        [feature, artifact] = fun_extract(user, buffer.eeg, []);
         
         
 		%% !!! IMPLEMENT THIS FUNCTION% Classification
@@ -212,9 +221,20 @@ end
 % !!! generate your feature vector, and also output whether there is artifact if you want
 function [feature, artifact] = fun_extract(user, eeg, baseline)
     eeg = eeg';
+    
+    col = length(eeg(1,:));
+    for i =1:col
+        means = mean(eeg(:,1));
+        eeg(:,i) = eeg(:,i) - means;
+    end
+    
+    %CAR
+    
+    %
     window_size = user.window_size;
-    N = length(eeg)*user.downsampling;
-    eeg = eeg(:,N-window_size:N);
+%     N = length(eeg);
+% %     eeg = eeg(:,N-window_size:user.downsampling:N);
+%     eeg = eeg(:,1:N);
     
     min_freq = 5;
     max_freq = 35;
@@ -237,17 +257,18 @@ function [class, proab] = fun_classify(user, feature)
     LDAClassifier = user.LDA_model;
     DQDAClassifier = user.DQDA_model;
 
-    featuresSVM = feature(user.selected_features_SVM);
-    featuresLDA = features(user.selected_features_LDA);
-    featuresDQDA = features(user.selected_features_DQDA);
+    featuresSVM = feature(user.SVM_selected_features);
+    featuresLDA = feature(user.LDA_selected_features);
+    featuresDQDA = feature(user.DQDA_selected_features);
 
-    [svm_y,svm_score] = predict(SVMClassifier,featuresSVM);
-    [lda_y,lda_score,lda_cost] = predict(LDAClassifier,featuresLDA);
-    [dqda_y,dqda_score,dqda] = predict(DQDAClassifier,featuresDQDA);
+  %  [svm_y,svm_score] = predict(SVMClassifier,featuresSVM);
+ %  [lda_y,lda_score,lda_cost] = predict(LDAClassifier,featuresLDA);
+    [dqda_y,dqda_score] = predict(DQDAClassifier,featuresDQDA);
     
-    proab1 = (svm_score(1)+lda_score(1)+dqda(1))*0.33;
-    proab2 = (svm_score(2)+lda_score(2)+dqda(2))*0.33;
-    
+   % proab1 = (svm_score(1)+lda_score(1)+dqda(1))*0.33;
+    %proab2 = (svm_score(2)+lda_score(2)+dqda(2))*0.33;
+    proab1 =(dqda_score(1));
+    proab2 = (dqda_score(2));
     if(proab1>proab2)
         class = 0;
     else
@@ -282,6 +303,7 @@ function output = fun_integration(class, proab, output, artifact)
 th = load('./threshold_integration');
 %For LDA % DQDA, Uncomment next line:
 %th [0.5 0.5];
+proab
 if proab >  th(1) 
     output = 2;
 elseif proab < th(2)

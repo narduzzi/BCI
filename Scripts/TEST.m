@@ -73,7 +73,7 @@ disp('Features ranked');
 features_train_error = [];
 features_test_error= [];
 
-for nbfeatures=283:1:286
+for nbfeatures= 1:10:1000
     selected_features = ranked(1:nbfeatures);
     %%
     fprintf('Evaluating performances for %0.1f features: ',nbfeatures);
@@ -81,7 +81,7 @@ for nbfeatures=283:1:286
     test_errors = [];
     for traj = 0:4
         [train_labels,train_features,test_labels,test_features] = create_folds(features_extracted,traj);
-        SVMModel = fitcsvm(train_features(:,selected_features),train_labels,'KernelFunction','linear');
+        SVMModel = fitcsvm(train_features(:,selected_features),train_labels,'KernelFunction','rbf');
 
         [predicted_train,score] = predict(SVMModel,train_features(:,selected_features));
         [predicted_labels,score] = predict(SVMModel,test_features(:,selected_features));
@@ -122,7 +122,7 @@ nbfeatures = 287;
 selected_features = ranked(1:nbfeatures);
 [train_labels,train_features,test_labels,test_features] = create_folds(features_extracted,6);
 disp('Training final model...');
-SVMModel_Simon_287 = fitcsvm(train_features(:,selected_features),train_labels,'KernelFunction','linear');
+SVMModel_Simon_287 = fitcsvm(train_features(:,selected_features),train_labels,'KernelFunction','RBF');
 disp('Training finished!');
 %%
 disp('Saving model...');
