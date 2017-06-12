@@ -5,7 +5,7 @@ clc
 
 %%
 
-load('data_loic1.mat')
+load('data_simon1.mat')
 downfactor = 8;
 low=1;
 high=40;
@@ -14,7 +14,7 @@ Fs = header_down.SampleRate/downfactor;
 signal_filtered = band_filter(low,high,order,Fs,signal_down);
 
 %%
-text = 'data_loic1_ses_1_condition.txt';
+text = 'data_simon1_ses_1_condition.txt';
 [easy,hard_assist,hard_noassist] = partitioning2(header_down,signal_filtered,text);
 
 %%
