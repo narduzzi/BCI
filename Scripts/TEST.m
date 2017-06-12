@@ -65,8 +65,8 @@ features = features_extracted(:,3:size(features_extracted,2));
 labels = features_extracted(:,1);
 K = 400
 
-[NCA_TRAIN_ERROR,NCA_TEST_ERROR] = models_evaluation(features_extracted,10,K);
+[NCA_TRAIN_ERROR,NCA_TEST_ERROR] = models_evaluation(features_extracted,1000,K);
 
-save('Results/NCA/TRAIN_ERROR.mat',NCA_TRAIN_ERROR);
-save('Results/NCA/TEST_ERROR.mat',NCA_TEST_ERROR);
+save('Results/NCA/Simon_TRAIN_ERROR_K400.mat','NCA_TRAIN_ERROR');
+save('Results/NCA/Simon_TEST_ERROR_K400.mat','NCA_TEST_ERROR');
 
