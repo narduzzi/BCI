@@ -25,12 +25,6 @@ for traj=0:4
         yhat_dlda = predict(classifier_dlda, test_features(:,orderedInd(1:i)));
         testing_error_dlda(traj+1,j) = classerror(test_labels, yhat_dlda); 
 
-        %     classifier_qda = fitcdiscr(train_features(:,orderedInd(1:i)), train_labels, 'DiscrimTyp', 'Quadratic', 'Prior', 'uniform');
-        %     yhat_qda = predict(classifier_qda, train_features(:,orderedInd(1:i))); 
-        %     training_error_qda(traj,i) = classerror(train_labels, yhat_qda);
-        %     yhat_qda = predict(classifier_qda, test_features(:,orderedInd(1:i)));
-        %     testing_error_qda(traj,i) = classerror(test_labels, yhat_qda); 
-
         classifier_dqda = fitcdiscr(train_features(:,orderedInd(1:i)), train_labels, 'DiscrimTyp', 'DiagQuadratic', 'Prior', 'uniform');
         yhat_dqda = predict(classifier_dqda, train_features(:,orderedInd(1:i))); 
         training_error_dqda(traj+1,j) = classerror(train_labels, yhat_dqda);
@@ -99,25 +93,5 @@ legend('test lda', 'test dlda', 'test dqda','test SVM_l','test SVM_q','test SVM_
  
 caca = 2;
 
-%train_features = features(:,3:end);
-%train_labels = features(:,1);
 
-
-% Uncomment if quadratic is ok
-% cv_error_lda = mean(testing_error_lda);
-% cv_error_dlda = mean(testing_error_dlda);
-% cv_error_qda = mean(testing_error_qda);
-% cv_error_dqda = mean(testing_error_dqda);
-% errors = [cv_error_lda cv_error_dlda cv_error_qda cv_error_dqda]
-% cv_error = min(errors);
-% classifier = [];
-% if ( find(cv_error == errors) == 1)
-%     classifier = 'linear';
-% elseif ( find(cv_error == errors) == 2)
-%     classifier = 'diaglinear';
-% elseif ( find(cv_error == errors) == 3)
-%     classifier = 'quadratic';
-% elseif (find(cv_error == errors) == 4)
-%     classifier = 'diagquadratic';
-% end
 
