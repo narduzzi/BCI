@@ -11,8 +11,9 @@ close all
 
 %%
 signal_filtered = band_filter(1,40,5,256,signal_down);
-centered_electrodes = load('25_centered_electrodes.mat');
-[indices] = index_of_electrodes(centered_electrodes.label,header_down);
+ %centered_electrodes = load('25_centered_electrodes.mat');
+ %[indices] = index_of_electrodes(centered_electrodes.label,header_down);
+indices = 1:64;
 signal25  = signal_filtered(indices,:);
 signal_avg = mean(signal25,1);
 [easy hard_assist hard_noassist] = partitioning2(header_down,signal_avg,condition_text);
@@ -37,9 +38,9 @@ for i = 1:length(idx_easy)-1
     L = length(condition);
     Y = fft(condition);
     P2 = abs(Y/L);
-    P1 = P2(1:L/2+1);
+    P1 = P2(1:floor(L/2)+1);
     P1(2:end-1) = 2*P1(2:end-1);
-    f = Fs*(0:(L/2))/L;
+    f = Fs*(0:floor(L/2))/L;
     subplot(3,2,i);
     window_size = 50;
     s_mavg = filter(ones(1,window_size)/window_size, 1, P1);
@@ -56,9 +57,9 @@ for i = 1:length(idx_easy)-1
     L = length(condition);
     Y = fft(condition);
     P2 = abs(Y/L);
-    P1 = P2(1:L/2+1);
+    P1 = P2(1:floor(L/2)+1);
     P1(2:end-1) = 2*P1(2:end-1);
-    f = Fs*(0:(L/2))/L;
+    f = Fs*(0:floor(L/2))/L;
     subplot(3,2,i);
     window_size = 50;
     s_mavg = filter(ones(1, window_size)/window_size, 1, P1);
@@ -83,9 +84,9 @@ ylabel('Success rate')
 figure(2)
 Y = fft(condition);
 P2 = abs(Y/L);
-P1 = P2(1:L/2+1);
+P1 = P2(1:floor(L/2)+1);
 P1(2:end-1) = 2*P1(2:end-1);
-f = Fs*(0:(L/2))/L;
+f = Fs*(0:floor(L/2))/L;
 avg = 0.5;
 s_mavg = filter(ones(1, avg*Fs)/avg/Fs, 1, P1);
 plot(f,s_mavg)
@@ -130,9 +131,9 @@ for i = 1:length(idx_easy)-1
     L = length(condition_filtered);
     Y = fft(condition_filtered);
     P2 = abs(Y/L);
-    P1 = P2(1:L/2+1);
+    P1 = P2(1:floor(L/2)+1);
     P1(2:end-1) = 2*P1(2:end-1);
-    f = Fs*(0:(L/2))/L;
+    f = Fs*(0:floor(L/2))/L;
     axis(axis_size_alpha);
     subplot(3,2,i);
     s_mavg = filter(ones(1, window_size)/window_size, 1, P1);
@@ -148,9 +149,9 @@ for i = 1:length(idx_easy)-1
     L = length(condition_filtered);
     Y = fft(condition_filtered);
     P2 = abs(Y/L);
-    P1 = P2(1:L/2+1);
+    P1 = P2(1:floor(L/2)+1);
     P1(2:end-1) = 2*P1(2:end-1);
-    f = Fs*(0:(L/2))/L;
+    f = Fs*(0:floor(L/2))/L;
     axis(axis_size_alpha);
     subplot(3,2,i);
     s_mavg = filter(ones(1, window_size)/window_size, 1, P1);
@@ -192,9 +193,9 @@ for i = 1:length(idx_easy)-1
     L = length(condition_filtered);
     Y = fft(condition_filtered);
     P2 = abs(Y/L);
-    P1 = P2(1:L/2+1);
+    P1 = P2(1:floor(L/2)+1);
     P1(2:end-1) = 2*P1(2:end-1);
-    f = Fs*(0:(L/2))/L;
+    f = Fs*(0:floor(L/2))/L;
     axis(axis_size_beta);
     subplot(3,2,i);
     s_mavg = filter(ones(1, window_size)/window_size, 1, P1);
@@ -210,9 +211,9 @@ for i = 1:length(idx_easy)-1
     L = length(condition_filtered);
     Y = fft(condition_filtered);
     P2 = abs(Y/L);
-    P1 = P2(1:L/2+1);
+    P1 = P2(1:floor(L/2)+1);
     P1(2:end-1) = 2*P1(2:end-1);
-    f = Fs*(0:(L/2))/L;
+    f = Fs*(0:floor(L/2))/L;
     axis(axis_size_beta);
     subplot(3,2,i);
     s_mavg = filter(ones(1, window_size)/window_size, 1, P1);
