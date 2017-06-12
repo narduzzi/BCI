@@ -62,12 +62,9 @@ step_size = window_size/2;
 features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),-1,header,window_size,step_size);
 
 %%
-[TRAIN_ERROR, TEST_ERROR,SELECTED] = model_FFS(features_extracted);
+[MODEL] = model_FFS(features_extracted);
 
-save('Results/FFS/Omar_TRAIN_ERROR.mat','TRAIN_ERROR');
-save('Results/FFS/Omar_TEST_ERROR.mat','TEST_ERROR');
-save('Results/FFS/Omar_SELECTED.mat','SELECTED');
-
+save('Results/FFS/Omar_MODEL.mat','MODEL');
 %%
 %{
 features = features_extracted(:,3:size(features_extracted,2));

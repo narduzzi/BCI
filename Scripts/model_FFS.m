@@ -1,4 +1,4 @@
-function [TRAIN_ERROR, TEST_ERROR,SELECTED] = model_FFS(features)
+function [MODEL] = model_FFS(features)
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
 
