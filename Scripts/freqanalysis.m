@@ -12,7 +12,7 @@ close all
 
 %%
 signal_filtered = band_filter(1,40,5,256,signal_down);
-signal64  = signal_filtered(indices,:);
+signal64  = signal_filtered(1:64,:);
 signal_avg = mean(signal64,1);
 [easy hard_assist hard_noassist] = partitioning2(header_down,signal_avg,condition_text);
 idx_easy = 0;
