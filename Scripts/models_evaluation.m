@@ -56,7 +56,7 @@ for traj=0:4
 end
 
 TRAIN_ERROR.training_error_lda = training_error_lda;
-TRAIN_ERROR.training_error_qlda = training_error_qlda;
+TRAIN_ERROR.training_error_dlda = training_error_dlda;
 TRAIN_ERROR.training_error_dqda = training_error_dqda;
 TRAIN_ERROR.training_error_SVM_linear = training_error_SVM_linear;
 TRAIN_ERROR.training_error_SVM_quadratic = training_error_SVM_quadratic;

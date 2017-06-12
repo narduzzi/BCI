@@ -63,6 +63,10 @@ features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:
 %%
 features = features_extracted(:,3:size(features_extracted,2));
 labels = features_extracted(:,1);
-K = 500
+K = 400
 
-[TRAIN_ERROR,TEST_ERROR] = models_evaluation(features_extracted,40,K);
+[NCA_TRAIN_ERROR,NCA_TEST_ERROR] = models_evaluation(features_extracted,10,K);
+
+save('Results/NCA/TRAIN_ERROR.mat',NCA_TRAIN_ERROR);
+save('Results/NCA/TEST_ERROR.mat',NCA_TEST_ERROR);
+
