@@ -65,6 +65,8 @@ cv_train_error_SVM_linear = mean(training_error_SVM_linear);
 cv_train_error_SVM_quadratic = mean(training_error_SVM_quadratic);
 cv_train_error_SVM_rbf = mean(training_error_SVM_rbf);
 
+sd_test_error_lda = std(testing_error_lda);
+
 figure(1)
 plot(1:10:nb_features, cv_test_error_lda);
 hold on; 
@@ -91,6 +93,9 @@ hold on
 plot(1:10:nb_features, cv_train_error_SVM_rbf);
 legend('test lda', 'test dlda', 'test dqda','test SVM_l','test SVM_q','test SVM_rbf', 'train lda', 'train dlda', 'train dqda','train SVM_l','train SVM_q','train SVM_q');
  
+figure(2)
+errorbar(1:10:nb_features, cv_test_error_lda, sd_test_error_lda);
+
 caca = 2;
 
 
