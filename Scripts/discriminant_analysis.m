@@ -231,7 +231,7 @@ title('Fisher feature selection')
 xlabel('Number of features')
 ylabel('Class error');
 %%
-% For structures data
+% For structures data of NCA
 testing_error_lda = NCA_TEST_ERROR.testing_error_lda;
 testing_error_dlda = NCA_TEST_ERROR.testing_error_dlda;
 testing_error_dqda = NCA_TEST_ERROR.testing_error_dqda;
@@ -246,3 +246,20 @@ training_error_SVM_linear = NCA_TRAIN_ERROR.training_error_SVM_linear;
 training_error_SVM_quadratic = NCA_TRAIN_ERROR.training_error_SVM_quadratic;
 training_error_SVM_rbf = NCA_TRAIN_ERROR.training_error_SVM_rbf;
 nb_features = 1000;
+
+%% 
+%For structures data of PCA
+testing_error_lda = MODEL_PCA.TEST_ERROR.testing_error_lda;
+testing_error_dlda = MODEL_PCA.TEST_ERROR.testing_error_dlda;
+testing_error_dqda = MODEL_PCA.TEST_ERROR.testing_error_dqda;
+test_error_SVM_linear = MODEL_PCA.TEST_ERROR.test_error_SVM_linear;
+test_error_SVM_quadratic = MODEL_PCA.TEST_ERROR.test_error_SVM_quadratic ;
+test_error_SVM_rbf = MODEL_PCA.TEST_ERROR.test_error_SVM_rbf;
+
+training_error_lda = MODEL_PCA.TRAIN_ERROR.training_error_lda;
+training_error_dlda = MODEL_PCA.TRAIN_ERROR.training_error_dlda ;
+training_error_dqda = MODEL_PCA.TRAIN_ERROR.training_error_dqda;
+training_error_SVM_linear = MODEL_PCA.TRAIN_ERROR.training_error_SVM_linear;
+training_error_SVM_quadratic = MODEL_PCA.TRAIN_ERROR.training_error_SVM_quadratic;
+training_error_SVM_rbf = MODEL_PCA.TRAIN_ERROR.training_error_SVM_rbf;
+nb_features = MODEL_PCA.PCsNb;
