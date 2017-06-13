@@ -3,40 +3,34 @@ clear all;
 clc;
 
 addpath(genpath('..\Recordings'));
-recording_session = 'ad6_10032017';
-user = '_omar1';
+recording_session_train = 'ah2_10032017';
+user = 'simon';
 
-path=strcat('Recordings/',recording_session,user,'/biosemi/data',user,'.bdf');
-text=strcat('Recordings/',recording_session,user,'/unity/',recording_session,'_ses_1_condition.txt');
-
-%[easy,hard_assist,hard_noassist,features_extracted] = main_eeg(path,8,1,40,4,text);
+path=strcat('Recordings/',recording_session_train,'_',user,'_1','/biosemi/data',user,'_1','.bdf');
+text=strcat('Recordings/',recording_session_train,'_',user,'_1','/unity/',recording_session_train,'_ses_1_condition.txt');
 
 rawsignal = path;
 downfactor = 8;
+sampling_freq = 2048;
 low=1;
 high=40;
 order=4;
 
-%%
-%%Main part
-%Test
+%Main part
 disp('Loading data...')
 [signal,header] = sload(rawsignal);
 signal = signal';
 %channel selection
 signal = signal(1:64,:);
 
-%%
 disp(fprintf('Downsampling : Factor %0.5f',downfactor))
 [header_down,signal_down] = downsampling(header,signal,downfactor);
 
-%%
 disp('Applying car...');
 %signal_filtered = car(signal_filtered);
 signal_down = car(signal_down);
 disp('CAR done.');
 
-%%
 low = 5;
 high = 40;
 order= 5;
@@ -44,35 +38,17 @@ disp('Bandpass filtering...')
 Fs = header.SampleRate/downfactor;
 signal_filtered = band_filter(low,high,order,Fs,signal_down);
 
-%%
 disp('Partitioning filtering...')
 [easy,hard_assist,hard_noassist] = partitioning2(header_down,signal_filtered,text);
 
-%%
 disp('Selecting electodes...')
 centered_electrodes = load('25_centered_electrodes.mat');
 [indices] = index_of_electrodes(centered_electrodes.label,header_down);
 indices = [1:64] %should be 5,4,38
 
-%%
 disp('Feature extraction...')
-window_size = 256;
+window_size = sampling_freq/downfactor;
 step_size = window_size/2;
 %features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),hard_assist(indices,:),header,window_size,step_size);
 features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),-1,header,window_size,step_size);
 
-%%
-[MODEL] = model_FFS(features_extracted);
-
-save('Results/FFS/Omar_MODEL.mat','MODEL');
-%%
-%{
-features = features_extracted(:,3:size(features_extracted,2));
-labels = features_extracted(:,1);
-K = 400
-
-[NCA_TRAIN_ERROR,NCA_TEST_ERROR] = models_evaluation(features_extracted,1000,K);
-
-save('Results/NCA/Omar_TRAIN_ERROR_K400.mat','NCA_TRAIN_ERROR');
-save('Results/NCA/Omar_TEST_ERROR_K400.mat','NCA_TEST_ERROR');
-%}
