@@ -32,7 +32,8 @@ step_size = window_size/2;
 features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),-1,header_down,window_size,step_size);
 
 %%
-discriminant_analysis(features_extracted,1000);
+%discriminant_analysis(features_extracted,1000);
+[TRAIN_ERROR, TEST_ERROR,SELECTED] = model_FFS(features_extracted);
 %%
 train_errors = [];
 

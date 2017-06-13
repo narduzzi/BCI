@@ -65,7 +65,6 @@ cv_train_error_SVM_linear = mean(training_error_SVM_linear);
 cv_train_error_SVM_quadratic = mean(training_error_SVM_quadratic);
 cv_train_error_SVM_rbf = mean(training_error_SVM_rbf);
 
-%%
 std_test_error_lda = std(testing_error_lda);
 std_test_error_dlda = std(testing_error_dlda);
 std_test_error_dqda = std(testing_error_dqda);
@@ -154,7 +153,7 @@ plot(1:10:nb_features, cv_test_error_dlda, 'Color', [1 17 181] ./ 255, 'LineWidt
 hold on;
 plot(1:10:nb_features, cv_test_error_dqda, 'Color', [3 155 82] ./ 255, 'LineWidth', 2);
 hold on;
-plot(1:10:nb_features, cv_train_error_lda, 'Color', [250 110 150] ./ 255, 'LineWidth', 2);
+plot(1:10:nb_features, cv_train_error_lda, 'Color', [28 200 238] ./ 255, 'LineWidth', 2);
 hold on;
 plot(1:10:nb_features, cv_train_error_dlda, 'Color', [28 200 238] ./ 255, 'LineWidth', 2);
 hold on; 
@@ -173,9 +172,9 @@ plot(1:10:nb_features, std_test_error_dqda+cv_test_error_dqda, '--', 'Color', [3
 hold on;
 plot(1:10:nb_features, (-1)*std_test_error_dqda+cv_test_error_dqda, '--', 'Color', [3 155 82] ./ 255)
 hold on;
-plot(1:10:nb_features, std_train_error_lda+cv_train_error_lda, '--', 'Color', [250 110 150] ./ 255)
+plot(1:10:nb_features, std_train_error_lda+cv_train_error_lda, '--', 'Color', 'k')
 hold on;
-plot(1:10:nb_features, (-1)*std_train_error_lda+cv_train_error_lda, '--', 'Color', [250 110 150] ./ 255)
+plot(1:10:nb_features, (-1)*std_train_error_lda+cv_train_error_lda, '--', 'Color', 'k')
 hold on;
 plot(1:10:nb_features, std_train_error_dlda+cv_train_error_dlda, '--', 'Color', [28 200 238] ./ 255)
 hold on;
@@ -184,50 +183,7 @@ hold on;
 plot(1:10:nb_features, std_train_error_dqda+cv_train_error_dqda, '--', 'Color', [94 250 81] ./ 255)
 hold on;
 plot(1:10:nb_features, (-1)*std_train_error_dqda+cv_train_error_dqda, '--', 'Color', [94 250 81] ./ 255)
-title('Fisher feature selection')
-xlabel('Number of features')
-ylabel('Class error');
+hold on;
 
-figure(4)
-plot(1:10:nb_features, cv_test_error_SVM_linear, 'Color', 'r', 'LineWidth', 2);
-hold on;
-plot(1:10:nb_features, cv_test_error_SVM_quadratic, 'Color', [1 17 181] ./ 255, 'LineWidth', 2);
-hold on;
-plot(1:10:nb_features, cv_test_error_SVM_rbf, 'Color', [3 155 82] ./ 255, 'LineWidth', 2);
-hold on;
-plot(1:10:nb_features, cv_train_error_SVM_linear, 'Color', [250 110 150] ./ 255, 'LineWidth', 2);
-hold on;
-plot(1:10:nb_features, cv_train_error_SVM_quadratic, 'Color', [28 200 238] ./ 255, 'LineWidth', 2);
-hold on; 
-plot(1:10:nb_features, cv_train_error_SVM_rbf, 'Color', [94 250 81] ./ 255, 'LineWidth', 2);
-legend('Test SVM Lin', 'Test SVM Qua', 'Test SVM RBF', 'Train SVM Lin', 'Train SVM Qua', 'Train SVM RBF')
-hold on;
-plot(1:10:nb_features, std_test_error_SVM_linear+cv_test_error_SVM_linear, '--', 'Color', 'r', 'LineWidth', 0.3)
-hold on;
-plot(1:10:nb_features, (-1)*std_test_error_SVM_linear+cv_test_error_SVM_linear, '--', 'Color', 'r')
-hold on; 
-plot(1:10:nb_features, std_test_error_SVM_quadratic+cv_test_error_SVM_quadratic, '--', 'Color', [1 17 181] ./ 255)
-hold on;
-plot(1:10:nb_features, (-1)*std_test_error_SVM_quadratic+cv_test_error_SVM_quadratic, '--', 'Color', [1 17 181] ./ 255)
-hold on;
-plot(1:10:nb_features, std_test_error_SVM_rbf+cv_test_error_SVM_rbf, '--', 'Color', [3 155 82] ./ 255)
-hold on;
-plot(1:10:nb_features, (-1)*std_test_error_SVM_rbf+cv_test_error_SVM_rbf, '--', 'Color', [3 155 82] ./ 255)
-hold on;
-plot(1:10:nb_features, std_train_error_SVM_linear+cv_train_error_SVM_linear, '--', 'Color', [250 110 150] ./ 255)
-hold on;
-plot(1:10:nb_features, (-1)*std_train_error_SVM_linear+cv_train_error_SVM_linear, '--', 'Color', [250 110 150] ./ 255)
-hold on;
-plot(1:10:nb_features, std_train_error_SVM_quadratic+cv_train_error_SVM_quadratic, '--', 'Color', [28 200 238] ./ 255)
-hold on;
-plot(1:10:nb_features, (-1)*std_train_error_SVM_quadratic+cv_train_error_SVM_quadratic, '--', 'Color', [28 200 238] ./ 255)
-hold on;
-plot(1:10:nb_features, std_train_error_SVM_rbf+cv_train_error_SVM_rbf, '--', 'Color', [94 250 81] ./ 255)
-hold on;
-plot(1:10:nb_features, (-1)*std_train_error_SVM_rbf+cv_train_error_SVM_rbf, '--', 'Color', [94 250 81] ./ 255)
-hold on;
-title('Fisher feature selection')
-xlabel('Number of features')
-ylabel('Class error');
 %%
 
