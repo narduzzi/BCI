@@ -9,6 +9,7 @@ signal_down = signal_down(1:64,:);
 %Band pass filtering
 disp('Bandpass filtering second session...')
 downfactor = 8;
+sampling_freq = 2048;
 low=1;
 high=40;
 order=5;
@@ -22,7 +23,7 @@ indices = [1:64];
 
 %%
 disp('Feature extraction second session...')
-window_size = 256;
+window_size = sampling_freq/downfactor;
 step_size = window_size/2;
 features_extracted = features_extraction(easy(indices,:),hard(indices,:),-1,header_down,window_size,step_size);
 
