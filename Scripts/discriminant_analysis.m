@@ -51,6 +51,7 @@ for traj=0:4
     end
 end
 
+%% 
 cv_test_error_lda = mean(testing_error_lda);
 cv_test_error_dlda = mean(testing_error_dlda);
 cv_test_error_dqda = mean(testing_error_dqda);
@@ -230,4 +231,18 @@ title('Fisher feature selection')
 xlabel('Number of features')
 ylabel('Class error');
 %%
+% For structures data
+testing_error_lda = NCA_TEST_ERROR.testing_error_lda;
+testing_error_dlda = NCA_TEST_ERROR.testing_error_dlda;
+testing_error_dqda = NCA_TEST_ERROR.testing_error_dqda;
+test_error_SVM_linear = NCA_TEST_ERROR.test_error_SVM_linear;
+test_error_SVM_quadratic = NCA_TEST_ERROR.test_error_SVM_quadratic ;
+test_error_SVM_rbf = NCA_TEST_ERROR.test_error_SVM_rbf;
 
+training_error_lda = NCA_TRAIN_ERROR.training_error_lda;
+training_error_dlda = NCA_TRAIN_ERROR.training_error_dlda ;
+training_error_dqda = NCA_TRAIN_ERROR.training_error_dqda;
+training_error_SVM_linear = NCA_TRAIN_ERROR.training_error_SVM_linear;
+training_error_SVM_quadratic = NCA_TRAIN_ERROR.training_error_SVM_quadratic;
+training_error_SVM_rbf = NCA_TRAIN_ERROR.training_error_SVM_rbf;
+nb_features = 1000;
