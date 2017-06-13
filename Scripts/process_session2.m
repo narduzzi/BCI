@@ -13,7 +13,7 @@ sampling_freq = 2048;
 low=1;
 high=40;
 order=5;
-Fs = header_down.SampleRate/downfactor;
+Fs = sampling_freq/downfactor;
 signal_filtered = band_filter(low,high,order,Fs,signal_down);
 
 %Partitioning
