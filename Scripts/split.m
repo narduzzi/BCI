@@ -25,7 +25,8 @@ function splitted = split(samples,windows_size,step_size)
                 %then the trajectory must not change because it's the same
                 %marker, sampled many times
                 if(trajectory_index - last > 1)
-                    trajectory_index = trajectory_index - 1
+                    trajectory_index = trajectory_index - 1;
+                    disp(fprintf('trajectory index : %0.0f \n', trajectory_index));
                 end
             end
         end

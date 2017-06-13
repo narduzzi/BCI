@@ -16,11 +16,11 @@ signal_filtered = band_filter(low,high,order,Fs,signal_down);
 disp('Partitioning filtering...')
 [easy,hard_assist,hard_noassist] = partitioning2(header_down,signal_filtered,text);
 
-indices = [1:64] %should be 5,4,38
+indices = [1:64];
 
 disp('Feature extraction Sess1...')
 window_size = sampling_freq/downfactor;
 step_size = window_size/2;
-features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),-1,header,window_size,step_size);
+features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),-1,header_down,window_size,step_size);
 
 end

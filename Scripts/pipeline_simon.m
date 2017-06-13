@@ -27,8 +27,8 @@ signal = signal';
 %channel selection
 signal = signal(1:64,:);
 
-disp(fprintf('Downsampling : Factor %0.5f',downfactor))
-[header_down,signal_down] = downsampling(header,signal,downfactor);
+disp(fprintf('Downsampling : Factor %0.0f \n',downfactor))
+[header_down,signal_down] = downsampling(header, signal,downfactor);
 
 disp('Applying car...');
 %signal_filtered = car(signal_filtered);
@@ -46,14 +46,14 @@ disp('Loading data session 2...')
 [signal2,header2] = sload(rawsignal);
 signal2 = signal2';
 %channel selection
-
-disp(fprintf('Downsampling : Factor %0.5f',downfactor))
+%%
+disp(fprintf('Downsampling : Factor %0.0f \n',downfactor))
 [header_down2,signal_down2] = downsampling(header2,signal2,downfactor);
 
 disp('Applying car session2...');
 signal_down2 = car(signal_down2);
 disp('CAR done.');
-
+%%
 features_extracted_test = process_session2(signal_down2,header_down2);
 
 
@@ -74,6 +74,8 @@ disp('Testing on session 2');
 [predicted_labels,score] = predict(SVMModel_rbf,test_features(:,orderedInd(1:nb_features_fisher)));
 test_error_SVM_rbf = classerror(test_labels,predicted_labels);
 
+disp(fprintf('Train error on session 1 : %0.4f \n',training_error_SVM_rbf));
+disp(fprintf('Test error on session 2 : %0.4f \n',test_error_SVM_rbf));
 
 %Relief
 %Training
@@ -89,5 +91,5 @@ disp('Testing on session 2');
 [predicted_labels,score]= predict(classifier_dlda, test_features(:,orderedInd(1:nb_features_relieff)));
 testing_error_dlda = classerror(test_labels, yhat_dlda); 
 
-disp('Train error on session 1 : %0.5f',training_error_dlda);
-disp('Test error on session 2 : %0.5f',testing_error_dlda);
+disp(fprintf('Train error on session 1 : %0.4f \n',training_error_dlda));
+disp(fprintf('Test error on session 2 : %0.4f \n',testing_error_dlda));
