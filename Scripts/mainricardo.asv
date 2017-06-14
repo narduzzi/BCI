@@ -83,7 +83,7 @@ training_error_final = classerror(train_labels, yhat)
 model_ricardo.classifier = classifier;
 model_ricardo.nb_features = nb_features;
 model_ricardo.indices = features_index;
-save('classifier_ricardo_relieff.mat', 'model_ricardo')
+save('classifier_ricardo_fisher.mat', 'model_ricardo')
 
 % 		Fisher: DQDA 340 features - 0.3129
 % 		ReliefF: SVM linear 380 features -0.3 ou DQDA 410 features -0.3
