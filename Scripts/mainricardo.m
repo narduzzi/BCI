@@ -5,7 +5,7 @@ clc
 
 %%
 
-load('data_ricardo1.mat')
+load('data_simon1.mat')
 downfactor = 8;
 low=1;
 high=40;
@@ -14,7 +14,7 @@ Fs = header_down.SampleRate/downfactor;
 signal_filtered = band_filter(low,high,order,Fs,signal_down);
 
 %%
-text = 'data_ricardo1_ses_1_condition.txt';
+text = 'data_simon1_ses_1_condition.txt';
 [easy,hard_assist,hard_noassist] = partitioning2(header_down,signal_filtered,text);
 
 %%
@@ -68,22 +68,31 @@ train_features = features_extracted(:,3:end);
 train_labels = features_extracted(:,1);
 
 % [orderedInd, orderedPower] = rankfeat(train_features, train_labels, 'fisher');
-% nb_features = 340;
+% nb_features = 220;
 % features_index = orderedInd(1:nb_features);
 % classifier = fitcdiscr(train_features(:,orderedInd(1:nb_features)), train_labels, 'DiscrimTyp', 'DiagQuadratic', 'Prior', 'uniform');
 % yhat = predict(classifier, train_features(:,orderedInd(1:nb_features))); 
 
-[orderedInd, orderedPower] = relieff(train_features, train_labels, 400);
-nb_features = 380;
-features_index = orderedInd(1:nb_features);
-classifier = fitcsvm(train_features(:,orderedInd(1:nb_features)),train_labels,'KernelFunction','linear');
-yhat = predict(classifier, train_features(:,orderedInd(1:nb_features))); 
+% [orderedInd, orderedPower] = relieff(train_features, train_labels, 400);
+% nb_features = 380;
+% features_index = orderedInd(1:nb_features);
+% classifier = fitcsvm(train_features(:,orderedInd(1:nb_features)),train_labels,'KernelFunction','linear');
+% yhat = predict(classifier, train_features(:,orderedInd(1:nb_features)));
+
+[coeff train_PCA variance] = pca(train_features);
+mean_t = mean(train_features,1);
+nb_features = 280;
+features_index = [];
+classifier = fitcdiscr(train_PCA(:,1:nb_features), train_labels, 'DiscrimTyp', 'DiagQuadratic', 'Prior', 'uniform');
+yhat = predict(classifier, train_PCA(:,1:nb_features)); 
 
 training_error_final = classerror(train_labels, yhat)
-model_ricardo.classifier = classifier;
-model_ricardo.nb_features = nb_features;
-model_ricardo.indices = features_index;
-save('classifier_ricardo_relieff.mat', 'model_ricardo')
+model_simon.classifier = classifier;
+model_simon.nb_features = nb_features;
+model_simon.indices = features_index;
+model_simon.coeff = coeff;
+model_simon.mean = mean_t;
+save('classifier_simon_pca.mat', 'model_simon')
 
 % 		Fisher: DQDA 340 features - 0.3129
 % 		ReliefF: SVM linear 380 features -0.3 ou DQDA 410 features -0.3

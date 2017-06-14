@@ -73,17 +73,25 @@ train_labels = features_extracted(:,1);
 % classifier = fitcdiscr(train_features(:,orderedInd(1:nb_features)), train_labels, 'DiscrimTyp', 'DiagQuadratic', 'Prior', 'uniform');
 % yhat = predict(classifier, train_features(:,orderedInd(1:nb_features))); 
 
-[orderedInd, orderedPower] = relieff(train_features, train_labels, 400);
-nb_features = 380;
-features_index = orderedInd(1:nb_features);
-classifier = fitcsvm(train_features(:,orderedInd(1:nb_features)),train_labels,'KernelFunction','linear');
-yhat = predict(classifier, train_features(:,orderedInd(1:nb_features))); 
+% [orderedInd, orderedPower] = relieff(train_features, train_labels, 400);
+% nb_features = 380;
+% features_index = orderedInd(1:nb_features);
+% classifier = fitcsvm(train_features(:,orderedInd(1:nb_features)),train_labels,'KernelFunction','linear');
+% yhat = predict(classifier, train_features(:,orderedInd(1:nb_features)));
+
+[coeff train_PCA variance] = pca(train_features);
+mean_t = mean(train_features,1);
+nb_features = 90;
+classifier = fitcdiscr(train_PCA(:,1:nb_features), train_labels, 'DiscrimTyp', 'Linear', 'Prior', 'uniform');
+yhat = predict(classifier, train_PCA(:,1:nb_features)); 
 
 training_error_final = classerror(train_labels, yhat)
 model_ricardo.classifier = classifier;
 model_ricardo.nb_features = nb_features;
 model_ricardo.indices = features_index;
-save('classifier_ricardo_fisher.mat', 'model_ricardo')
+model_ricardo.coeff = coeff;
+model_ricardo.mean = mean_t;
+save('classifier_ricardo_relieff.mat', 'model_ricardo')
 
 % 		Fisher: DQDA 340 features - 0.3129
 % 		ReliefF: SVM linear 380 features -0.3 ou DQDA 410 features -0.3
