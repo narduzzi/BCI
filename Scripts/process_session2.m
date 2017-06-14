@@ -25,7 +25,8 @@ indices = [1:64];
 disp('Feature extraction second session...')
 window_size = sampling_freq/downfactor;
 step_size = window_size/2;
-features_extracted = features_extraction(easy(indices,:),hard(indices,:),-1,header_down,window_size,step_size);
+%features_extracted = features_extraction(easy(indices,:),hard(indices,:),-1,header_down,window_size,step_size);
+features_extracted = features_extraction(easy(indices,:),hard(indices,:),medium(indices,:),header_down,window_size,step_size);
 
 end
 
