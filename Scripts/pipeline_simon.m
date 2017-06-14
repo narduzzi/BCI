@@ -42,9 +42,14 @@ features_extracted_train = process_session1(signal_down,header_down,text);
 %% SESSION 2
 
 %Main part
+rawsignal = path2;
 disp('Loading data session 2...')
 [signal2,header2] = sload(rawsignal);
 signal2 = signal2';
+
+%data cleaning
+header2.EVENT.TYP(152) = 32726;
+
 %channel selection
 %%
 disp(fprintf('Downsampling : Factor %0.0f \n',downfactor))
@@ -60,36 +65,42 @@ features_extracted_test = process_session2(signal_down2,header_down2);
 %% TRAINING and TESTING
 [train_labels,train_features,null1,null2] = create_folds(features_extracted_train,-1);
 [test_labels,test_features,null1,null2] = create_folds(features_extracted_test,-1);
-
+%%
 %Fisher
 %Training
 disp('Training session 1');
-nb_features_fisher = 610;
+nb_features_fisher = 820;
 [orderedInd, orderedPower] = rankfeat(train_features, train_labels, 'fisher');
-SVMModel_rbf = fitcsvm(train_features(:,orderedInd(1:nb_features_fisher)),train_labels,'KernelFunction','rbf');
 %Testing
-[predicted_train,score] = predict(SVMModel_rbf,train_features(:,orderedInd(1:nb_features_fisher)));
-training_error_SVM_rbf = classerror(train_labels,predicted_train);
-disp('Testing on session 2');
-[predicted_labels,score] = predict(SVMModel_rbf,test_features(:,orderedInd(1:nb_features_fisher)));
-test_error_SVM_rbf = classerror(test_labels,predicted_labels);
+classifier_lda = fitcdiscr(train_features(:,orderedInd(1:nb_features_fisher)), train_labels, 'DiscrimTyp', 'Linear', 'Prior', 'uniform');
+[predicted_train,score] = predict(classifier_lda, train_features(:,orderedInd(1:nb_features_fisher))); 
+training_error_lda = classerror(train_labels, predicted_train);
+[predicted_test,score] = predict(classifier_lda, test_features(:,orderedInd(1:nb_features_fisher)));
+testing_error_lda = classerror(test_labels, predicted_test); 
 
-disp(fprintf('Train error on session 1 : %0.4f \n',training_error_SVM_rbf));
-disp(fprintf('Test error on session 2 : %0.4f \n',test_error_SVM_rbf));
+[X,Y,T,AUC_SVM] = perfcurve(test_labels, score(:,2), 1);
 
+disp(fprintf('Train error on session 1 : %0.4f \n',training_error_lda));
+disp(fprintf('Test error on session 2 : %0.4f \n',testing_error_lda));
+disp(fprintf('AUC : %0.4f \n',AUC_SVM));
+%%
 %Relief
 %Training
-disp('Training session 1');
 nb_features_relieff = 251;
 K = 400;
+disp('Computing ReliefF..');
 [orderedInd, orderedPower] = relieff(train_features, train_labels, K);
+disp('Training session 1');
 classifier_dlda = fitcdiscr(train_features(:,orderedInd(1:nb_features_relieff)), train_labels, 'DiscrimTyp', 'DiagLinear', 'Prior', 'uniform');
 %Testing
 [predicted_train,score] = predict(classifier_dlda, train_features(:,orderedInd(1:nb_features_relieff))); 
-training_error_dlda = classerror(train_labels, yhat_dlda);
+training_error_dlda = classerror(train_labels, predicted_train);
 disp('Testing on session 2');
 [predicted_labels,score]= predict(classifier_dlda, test_features(:,orderedInd(1:nb_features_relieff)));
-testing_error_dlda = classerror(test_labels, yhat_dlda); 
+testing_error_dlda = classerror(test_labels, predicted_labels); 
+
+[X,Y,T,AUC_SVM] = perfcurve(test_labels, score(:,2), 1);
 
 disp(fprintf('Train error on session 1 : %0.4f \n',training_error_dlda));
 disp(fprintf('Test error on session 2 : %0.4f \n',testing_error_dlda));
+disp(fprintf('AUC : %0.4f \n',AUC_SVM));

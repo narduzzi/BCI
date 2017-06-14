@@ -56,8 +56,6 @@ for traj=1:5
     yhat_svmq = predict(classifier_svmq, test_features(:,selected_svmq));
     testing_error_svmq(traj) = classerror(test_labels, yhat_svmq);    
     MODEL.SELECTED.svmq{traj} = selected_svmq;
-    %}
-    
     
     disp('Evaluating SVM guaussian FFS...')
     fun = @(xT,yT) (classerror(yT,predict(fitcsvm(xT,yT,'KernelFunction','rbf'), xT)));    
@@ -67,6 +65,7 @@ for traj=1:5
     yhat_svmrbf = predict(classifier_svmrbf, test_features(:,selected_svmrbf));
     testing_error_svmrbf(traj) = classerror(test_labels, yhat_svmrbf);
     MODEL.SELECTED.svmrbf{traj} = selected_svmrbf;
+    %}
 end
 
 MODEL.TRAIN_ERROR.training_error_lda = valid_error_lda;
@@ -74,14 +73,14 @@ MODEL.TRAIN_ERROR.training_error_dlda = valid_error_dlda;
 MODEL.TRAIN_ERROR.training_error_dqda = valid_error_dqda;
 MODEL.TRAIN_ERROR.training_error_SVM_linear = valid_error_SVM_linear;
 %MODEL.TRAIN_ERROR.training_error_SVM_quadratic = valid_error_SVM_quadratic;
-MODEL.TRAIN_ERROR.training_error_SVM_rbf = valid_error_SVM_rbf;
+%MODEL.TRAIN_ERROR.training_error_SVM_rbf = valid_error_SVM_rbf;
 
 MODEL.TEST_ERROR.testing_error_lda = testing_error_lda;
 MODEL.TEST_ERROR.testing_error_dlda = testing_error_dlda;
 MODEL.TEST_ERROR.testing_error_dqda = testing_error_dqda;
 MODEL.TEST_ERROR.test_error_SVM_linear = testing_error_SVM_linear;
 %MODEL.TEST_ERROR.test_error_SVM_quadratic = testing_error_SVM_quadratic;
-MODEL.TEST_ERROR.test_error_SVM_rbf = testing_error_SVM_rbf;
+%MODEL.TEST_ERROR.test_error_SVM_rbf = testing_error_SVM_rbf;
 
 
 %save('model_FFS');

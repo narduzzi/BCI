@@ -3,11 +3,11 @@ clear all;
 clc;
 
 addpath(genpath('..\Recordings'));
-recording_session_train = 'ah2_10032017';
-user = 'simon';
+recording_session_train = 'ag7_24032017';
+user = 'ricardo';
 
-path=strcat('Recordings/',recording_session_train,'_',user,'_1','/biosemi/data',user,'_1','.bdf');
-text=strcat('Recordings/',recording_session_train,'_',user,'_1','/unity/',recording_session_train,'_ses_1_condition.txt');
+path=strcat('Recordings/',recording_session_train,'_',user,'1','/biosemi/data_',user,'1','.bdf');
+text=strcat('Recordings/',recording_session_train,'_',user,'1','/unity/',recording_session_train,'_ses_1_condition.txt');
 
 rawsignal = path;
 downfactor = 8;
@@ -51,4 +51,7 @@ window_size = sampling_freq/downfactor;
 step_size = window_size/2;
 %features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),hard_assist(indices,:),header,window_size,step_size);
 features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:),-1,header,window_size,step_size);
-
+%%
+[MODEL] = model_FFS(features_extracted);
+%%
+save('Results/FFS/Ricardo_MODEL.mat','MODEL');
