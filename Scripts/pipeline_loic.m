@@ -1,4 +1,4 @@
-%Simon Pipeline
+%Loic Pipeline
 addpath(genpath('..\Recordings'));
 session_train = 'af6_15032017';
 session_test = 'af6_12042017';
