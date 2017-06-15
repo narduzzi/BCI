@@ -67,10 +67,9 @@ size = 6;
 figure;
 
 %Get coeffs
-best_coeffs_indices = find(abs(coeff(:,1)) > 0.08);
-best_coeffs = coeff(find(abs(coeff(:,1)) > 0.08),1);
-[coeff_sort indices] = sort(best_coeffs,'descend');
-features_selected = best_coeffs_indices(indices(1:size));
+[coeff_sort pca_indices] = sort(coeff,'descend');
+features_selected = pca_indices(1:size);
+features_selected
 
 features_name = get_name_of_features(features_selected);
 gplotmatrix(train_features(:,features_selected),[],train_labels,'br','ox',[],'on','',...
@@ -87,7 +86,7 @@ disp('ReliefF 20 first features');
 disp(orderedReliefF(1:20)');
 
 disp('PCA 20 first features');
-disp(best_coeffs_indices(indices(1:20)));
+disp(pca_indices(1:20));
 
 
 %% Plotting distribution of electrodes for the first 200 features
@@ -110,15 +109,14 @@ ylabel('Features');
 title('Features repartition in electrodes (first 200 ranked by ReliefF)');
 
 figure;
-features_PCA = best_coeffs_indices(indices(:))
+features_PCA = pca_indices(1:N);
 len = length(features_PCA);
 electrodes_PCA_200 = electrodes_containing_features(features_PCA);
 histogram(electrodes_PCA_200,64);
 axis([1 64 0 13])
 xlabel('Electrode index');
 ylabel('Features');
-s = sprintf('Features repartition in electrodes (first %s ranked by PCA)',num2str(len));
-title(s);
+title('Features repartition in electrodes (first 200 ranked by PCA)');
 
 %% Plotting distribution of frequencies for the first 200 features
 N = 100;
@@ -142,13 +140,12 @@ title('Features repartition in frequency (first 200 ranked by ReliefF)');
 savefig('Graphs/Frequencies_ReliefF_200.fig');
 
 figure;
-features_PCA = best_coeffs_indices(indices(:))
+features_PCA = pca_indices(1:N);
 len = length(features_PCA);
 frequency_PCA_200 = frequency_of_features(features_PCA);
 histogram(frequency_PCA_200,31);
 axis([5 35 0 20]);
-xlabel('Electrode index');
+xlabel('Frequency');
 ylabel('Features');
-s = sprintf('Features repartition in frequency (first %s ranked by PCA)',num2str(len));
-title(s);
+title('Features repartition in frequency (first 200 ranked by PCA)');
 savefig('Graphs/Frequencies_PCA_200.fig');
