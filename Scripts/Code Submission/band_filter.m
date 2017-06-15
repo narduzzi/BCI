@@ -1,6 +1,7 @@
 function [signal_filtered] = band_filter(low,high,order,Fs,signal_down)
 %This function takes the downsampled signal and filter it between low and
 %high frequencies using a desired order and sampling frequency Fs
+%OUTPUT: signal filtered
 
 
 [b,a] = butter(order, [low high] / (Fs / 2), 'bandpass');
