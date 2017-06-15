@@ -1,6 +1,10 @@
 function [ MODEL ] = model_PCA(features, nb_PCs)
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+%Performs a leave-one-trajectory out cross validation with a PCA for
+%automatic feature selection. PCs are added 10 by 10. This function then
+%saves the testing and training errors in a structure and plots the mean
+%test and train errors for different classifier. 
+%Input: feature matrix , number of PCs 
+%Output: structure MODEL the parameters of the errors for each classifier.
 
 for traj=0:4
     disp(['Cross validation fold number ' int2str(traj+1)])
