@@ -134,7 +134,7 @@ savefig('Graphs/Frequencies_Fisher_200.fig');
 
 figure;
 frequency_ReliefF_200 = frequency_of_features(orderedReliefF(1:N));
-histogram(frequency_ReliefF_200,31);
+histogram(frequency_ReliefF_200,64);
 axis([5 35 0 20]);
 xlabel('Frequency');
 ylabel('Features');
@@ -145,7 +145,7 @@ figure;
 features_PCA = best_coeffs_indices(indices(:))
 len = length(features_PCA);
 frequency_PCA_200 = frequency_of_features(features_PCA);
-histogram(frequency_PCA_200,31);
+histogram(frequency_PCA_200,64);
 axis([5 35 0 20]);
 xlabel('Electrode index');
 ylabel('Features');
