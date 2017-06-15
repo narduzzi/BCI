@@ -86,7 +86,7 @@ disp('ReliefF 20 first features');
 disp(orderedReliefF(1:20)');
 
 disp('PCA 20 first features');
-disp(best_coeffs_indices(indices(1:20)));
+disp(best_coeffs_indices(indices_PCA(1:20)));
 
 
 %% Plotting distribution of electrodes for the first 200 features
@@ -109,7 +109,7 @@ ylabel('Features');
 title('Features repartition in electrodes (first 200 ranked by ReliefF)');
 
 figure;
-features_PCA = best_coeffs_indices(indices(:))
+features_PCA = best_coeffs_indices(indices_PCA(:))
 len = length(features_PCA);
 electrodes_PCA_200 = electrodes_containing_features(features_PCA);
 histogram(electrodes_PCA_200,64);
