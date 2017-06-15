@@ -68,32 +68,31 @@ train_features = features_extracted(:,3:end);
 train_labels = features_extracted(:,1);
 
 % [orderedInd, orderedPower] = rankfeat(train_features, train_labels, 'fisher');
-% nb_features = 220;
+% nb_features = 610;
 % features_index = orderedInd(1:nb_features);
-% classifier = fitcdiscr(train_features(:,orderedInd(1:nb_features)), train_labels, 'DiscrimTyp', 'DiagQuadratic', 'Prior', 'uniform');
+% %classifier = fitcdiscr(train_features(:,orderedInd(1:nb_features)), train_labels, 'DiscrimTyp', 'DiagLinear', 'Prior', 'uniform');
+% classifier = fitcsvm(train_features(:,orderedInd(1:nb_features)),train_labels,'KernelFunction','rbf');
 % yhat = predict(classifier, train_features(:,orderedInd(1:nb_features))); 
 
-% [orderedInd, orderedPower] = relieff(train_features, train_labels, 400);
-% nb_features = 380;
-% features_index = orderedInd(1:nb_features);
-% classifier = fitcsvm(train_features(:,orderedInd(1:nb_features)),train_labels,'KernelFunction','linear');
-% yhat = predict(classifier, train_features(:,orderedInd(1:nb_features)));
+[orderedInd, orderedPower] = relieff(train_features, train_labels, 400);
+nb_features = 251;
+features_index = orderedInd(1:nb_features);
+%classifier = fitcsvm(train_features(:,orderedInd(1:nb_features)),train_labels,'KernelFunction','linear');
+classifier = fitcdiscr(train_features(:,orderedInd(1:nb_features)), train_labels, 'DiscrimTyp', 'DiagLinear', 'Prior', 'uniform');
+yhat = predict(classifier, train_features(:,orderedInd(1:nb_features)));
 
-[coeff train_PCA variance] = pca(train_features);
-mean_t = mean(train_features,1);
-nb_features = 280;
-features_index = [];
-classifier = fitcdiscr(train_PCA(:,1:nb_features), train_labels, 'DiscrimTyp', 'DiagQuadratic', 'Prior', 'uniform');
-yhat = predict(classifier, train_PCA(:,1:nb_features)); 
+% [coeff train_PCA variance] = pca(train_features);
+% mean_t = mean(train_features,1);
+% nb_features = 51;
+% features_index = [];
+% classifier = fitcdiscr(train_PCA(:,1:nb_features), train_labels, 'DiscrimTyp', 'DiagQuadratic', 'Prior', 'uniform');
+% yhat = predict(classifier, train_PCA(:,1:nb_features)); 
 
 training_error_final = classerror(train_labels, yhat)
 model_simon.classifier = classifier;
 model_simon.nb_features = nb_features;
 model_simon.indices = features_index;
-model_simon.coeff = coeff;
-model_simon.mean = mean_t;
-save('classifier_simon_pca.mat', 'model_simon')
+%model_simon.coeff = coeff;
+%model_simon.mean = mean_t;
+save('classifier_simon_relieff.mat', 'model_simon')
 
-% 		Fisher: DQDA 340 features - 0.3129
-% 		ReliefF: SVM linear 380 features -0.3 ou DQDA 410 features -0.3
-% 		PCA: LDA 80 features - 0.2641
