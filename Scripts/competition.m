@@ -5,19 +5,22 @@ clc;
 features_loic = process_recording('Recordings/af6_15032017_loic1/biosemi/data_loic1.bdf',...
     'Recordings/af6_15032017_loic1/unity/af6_15032017_ses_1_condition.txt');
 
-features_ricardo = process_recording('Recordings/ag7_24032017_ricardo1/biosemi/data_ricardo1.bdf',...
-    'Recordings/ag7_24032017_ricardo1/unity/ag7_24032017_ses_1_condition.txt');
+%Not ricardo but Simon
+features_ricardo = process_recording('Recordings/ah2_31032017_simon1/biosemi/data_simon1.bdf',...
+    'Recordings/ah2_31032017_simon1/unity/ah2_31032017_ses_1_condition.txt');
 
 features_subj1 = process_recording('Recordings/subj1.bdf','Recordings/subj1_ses_1_condition.txt');
 features_subj2 = process_recording('Recordings/subj2.bdf','Recordings/subj2_ses_1_condition.txt');
 features_subj3 = process_recording('Recordings/subj3.bdf','Recordings/subj3_ses_1_condition.txt');
 
+disp('Creating folds..');
 % create folds
 [train_labels_loic,train_features_loic,x,y] = create_folds(features_loic,-1);
 [train_labels_ricardo,train_features_ricardo,x,y] = create_folds(features_ricardo,-1);
 [test_labels_1,test_features_1,x,y] = create_folds(features_subj1,-1);
 [test_labels_2,test_features_2,x,y] = create_folds(features_subj2,-1);
 [test_labels_3,test_features_3,x,y] = create_folds(features_subj3,-1);
+disp('Folds created.');
 
 %Use leave-one-out-trajectory validation??
 
