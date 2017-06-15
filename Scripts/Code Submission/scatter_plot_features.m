@@ -127,7 +127,7 @@ axis([5 35 0 20]);
 xlabel('Frequency');
 ylabel('Features');
 title('Features repartition in frequency (first 200 ranked by Fisher)');
-savefig('Graphs/Frequencies_Fisher_200.fig');
+% savefig('Graphs/Frequencies_Fisher_200.fig');
 
 figure;
 frequency_ReliefF_200 = frequency_of_features(orderedReliefF(1:N));
@@ -136,7 +136,7 @@ axis([5 35 0 20]);
 xlabel('Frequency');
 ylabel('Features');
 title('Features repartition in frequency (first 200 ranked by ReliefF)');
-savefig('Graphs/Frequencies_ReliefF_200.fig');
+% savefig('Graphs/Frequencies_ReliefF_200.fig');
 
 figure;
 features_PCA = indices_PCA(1:N);
@@ -147,4 +147,4 @@ axis([5 35 0 20]);
 xlabel('Frequency');
 ylabel('Features');
 title('Features repartition in frequency (first 200 ranked by PCA)');
-savefig('Graphs/Frequencies_PCA_200.fig');
+% savefig('Graphs/Frequencies_PCA_200.fig');
