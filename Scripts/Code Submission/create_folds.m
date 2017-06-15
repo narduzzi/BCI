@@ -1,6 +1,7 @@
 function [train_labels,train_features,test_labels,test_features] = create_folds(features_list,index_test)
-%This function create folds. The trajectory == index_test is retained as
+%This function create folds for cross-validation. The trajectory == index_test is retained as
 %test fold.
+
     shape = size(features_list);
     num_samples = shape(1);
 

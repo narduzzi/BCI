@@ -1,4 +1,7 @@
 function [train_labels,train_features,test_labels,test_features] = create_folds2(features_list,index_test)
+%Second version of create folds to create folds of trajectories for
+%cross-validation
+
 
 idx_test = find(features_list(:,2)==index_test);
 
