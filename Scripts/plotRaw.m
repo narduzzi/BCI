@@ -2,6 +2,8 @@ function plotRaw(signal,header)
 % Function that takes the EEG signal (64 electrodes) and the header as input.
 % It plots the 64 EEG chanels of the signal in 4 windows,
 % 16 electrodes per window together with markers of the begining and end of trajectories. 
+%(it is better to filter the signal with band_filter befor to have a better
+%visualisation)
 close all
 
 start_traj_index = find(header.EVENT.TYP == 1);
