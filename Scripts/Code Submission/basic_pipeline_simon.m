@@ -3,17 +3,11 @@ clc
 clear all
 close all
 %Pipeline : Processing (CAR,Downsampling) and feature extraction
-% features_session1 = process_recording('Recordings/af6_15032017_simon1/biosemi/data_simon1.bdf',...
-%     'Recordings/af6_15032017_simon1/unity/af6_15032017_ses_1_condition.txt',1);
-% features_session2 = process_recording('Recordings/af6_12042017_simon2/biosemi/data_simon2.bdf',...
-%     'Recordings/af6_12042017_simon2/unity/af6_12042017_ses_2_condition.txt',2);
+features_session1 = process_recording('Recordings/af6_15032017_simon1/biosemi/data_simon1.bdf',...
+    'Recordings/af6_15032017_simon1/unity/af6_15032017_ses_1_condition.txt',1);
+features_session2 = process_recording('Recordings/af6_12042017_simon2/biosemi/data_simon2.bdf',...
+    'Recordings/af6_12042017_simon2/unity/af6_12042017_ses_2_condition.txt',2);
 
-load('rawdata down/data_simon1.mat')
-load('rawdata down/data_simon2.mat')
-text = 'conditions tables/data_simon1_ses_1_condition.txt';
-features_session1 = process_session1(signal_down1,header_down1,text);
-
-features_session2 = process_session2(signal_down2,header_down2);
 %%
 %Evaluating models
 train_features = features_session1(:,3:end);
