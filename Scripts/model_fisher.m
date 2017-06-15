@@ -1,9 +1,11 @@
 function model_fisher(features, nb_features)
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+%Performs a leave-one-trajectory out cross validation with  fisher for
+%automatic feature selection. PCs are added 10 by 10. This function then
+% plots the mean test and train errors for different classifiers. 
+%Input: feature matrix , number of features 
 
 for traj=0:4
-    disp(['Cross validation fold number ' int2str(traj)])
+    disp(['Cross validation fold number ' int2str(traj+1)])
     %Determine the test and train tests
     [train_labels,train_features,test_labels,test_features] = create_folds(features,traj);
     [orderedInd, orderedPower] = rankfeat(train_features, train_labels, 'fisher');
