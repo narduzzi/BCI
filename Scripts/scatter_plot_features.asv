@@ -38,6 +38,7 @@ features_extracted_train = process_session1(signal_down,header_down,text);
 
 [orderedFisher, orderedFisherPower] = rankfeat(train_features, train_labels, 'fisher');
 [orderedReliefF, orderedReliefFPower] = relieff(train_features, train_labels, 400);
+[coeff, train_PCA, variance] = pca(train_features);
 
 %% Plot Fisher
 size = 6;
@@ -49,12 +50,7 @@ gplotmatrix(train_features(:,features_selected),[],train_labels,'br','ox',[],'on
 title('Scatter matrix of the 6 first features ranked by Fisher (AF6)');
 h = findobj('Tag','legend');
 set(h, 'String', {'Easy', 'Hard'})
-%%
-features_names(1,:) = mod((0:1983),31)+5;
-features_names(2,:) = round((0:1983)/62)+1;
-%%
-orderedFisher(1:20)
-orderedReliefF(1:20)
+
 %% Plot ReliefF
 size = 6;
 figure;
@@ -69,11 +65,57 @@ set(h, 'String', {'Easy', 'Hard'})
 %% Plot PCA
 size = 6;
 figure;
-features_selected = orderedReliefF(1:size);
+
+%Get coeffs
+best_coeffs_indices = find(abs(coeff(:,1)) > 0.08);
+best_coeffs = coeff(find(abs(coeff(:,1)) > 0.08),1);
+[coeff_sort indices] = sort(best_coeffs,'descend');
+features_selected = best_coeffs_indices(indices(1:size));
+
 features_name = get_name_of_features(features_selected);
 gplotmatrix(train_features(:,features_selected),[],train_labels,'br','ox',[],'on','',...
     features_name,features_name);
-title('Scatter matrix of the 5 first features ranked by PCA');
+title('Scatter matrix of the 6 first features ranked by PCA');
 h = findobj('Tag','legend');
 set(h, 'String', {'Easy', 'Hard'})
 
+%%
+disp('Fisher 20 first features');
+disp(orderedFisher(1:20)');
+
+disp('ReliefF 20 first features');
+disp(orderedReliefF(1:20)');
+
+disp('PCA 20 first features');
+disp(best_coeffs_indices(indices(1:20)));
+
+
+%% Plotting distribution of electrodes for the first 200 features
+N = 200;
+
+figure;
+electrodes_Fisher_200 = electrodes_containing_features(orderedFisher(1:N));
+histogram(electrodes_Fisher_200,64);
+axis([1 64 0 13])
+xlabel('Electrode index');
+ylabel('Features');
+title('Features repartition in electrodes (first 200 ranked by Fisher)');
+
+figure;
+electrodes_ReliefF_200 = electrodes_containing_features(orderedReliefF(1:N));
+histogram(electrodes_ReliefF_200,64);
+axis([1 64 0 13])
+xlabel('Electrode index');
+ylabel('Features');
+title('Features repartition in electrodes (first 200 ranked by ReliefF)');
+
+figure;
+features_PCA = best_coeffs_indices(indices(:))
+len = length(features_PCA);
+electrodes_PCA_200 = electrodes_containing_features(features_PCA);
+histogram(electrodes_PCA_200,64);
+axis([1 64 0 13])
+xlabel('Electrode index');
+ylabel('Features');
+s = strcat
+title('Features repartition in electrodes (first 200 ranked by PCA)');

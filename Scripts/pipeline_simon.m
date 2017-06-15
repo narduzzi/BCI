@@ -19,7 +19,7 @@ sampling_freq = 2048;
 low=1;
 high=40;
 order=5;
-
+    
 %Main part
 disp('Loading data...')
 [signal,header] = sload(rawsignal);
@@ -63,8 +63,11 @@ features_extracted_test = process_session2(signal_down2,header_down2);
 
 
 %% TRAINING and TESTING
+disp('Create folds session1...');
 [train_labels,train_features,null1,null2] = create_folds(features_extracted_train,-1);
+disp('Create folds session2...');
 [test_labels,test_features,null1,null2] = create_folds(features_extracted_test,-1);
+disp('Done.');
 %%
 %Fisher
 %Training
