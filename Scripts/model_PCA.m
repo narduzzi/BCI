@@ -78,20 +78,20 @@ MODEL.PCsNb = nb_PCs;
 MODEL.vectorNbPCs = 1:10:nb_PCs;
 
 
-testing_error_lda = MODEL_PCA.TEST_ERROR.testing_error_lda;
-testing_error_dlda = MODEL_PCA.TEST_ERROR.testing_error_dlda;
-testing_error_dqda = MODEL_PCA.TEST_ERROR.testing_error_dqda;
-test_error_SVM_linear = MODEL_PCA.TEST_ERROR.test_error_SVM_linear;
-test_error_SVM_quadratic = MODEL_PCA.TEST_ERROR.test_error_SVM_quadratic ;
-test_error_SVM_rbf = MODEL_PCA.TEST_ERROR.test_error_SVM_rbf;
+testing_error_lda = MODEL.TEST_ERROR.testing_error_lda;
+testing_error_dlda = MODEL.TEST_ERROR.testing_error_dlda;
+testing_error_dqda = MODEL.TEST_ERROR.testing_error_dqda;
+test_error_SVM_linear = MODEL.TEST_ERROR.test_error_SVM_linear;
+test_error_SVM_quadratic = MODEL.TEST_ERROR.test_error_SVM_quadratic ;
+test_error_SVM_rbf = MODEL.TEST_ERROR.test_error_SVM_rbf;
 
-training_error_lda = MODEL_PCA.TRAIN_ERROR.training_error_lda;
-training_error_dlda = MODEL_PCA.TRAIN_ERROR.training_error_dlda ;
-training_error_dqda = MODEL_PCA.TRAIN_ERROR.training_error_dqda;
-training_error_SVM_linear = MODEL_PCA.TRAIN_ERROR.training_error_SVM_linear;
-training_error_SVM_quadratic = MODEL_PCA.TRAIN_ERROR.training_error_SVM_quadratic;
-training_error_SVM_rbf = MODEL_PCA.TRAIN_ERROR.training_error_SVM_rbf;
-nb_features = MODEL_PCA.PCsNb;
+training_error_lda = MODEL.TRAIN_ERROR.training_error_lda;
+training_error_dlda = MODEL.TRAIN_ERROR.training_error_dlda ;
+training_error_dqda = MODEL.TRAIN_ERROR.training_error_dqda;
+training_error_SVM_linear = MODEL.TRAIN_ERROR.training_error_SVM_linear;
+training_error_SVM_quadratic = MODEL.TRAIN_ERROR.training_error_SVM_quadratic;
+training_error_SVM_rbf = MODEL.TRAIN_ERROR.training_error_SVM_rbf;
+nb_features = MODEL.PCsNb;
 
 %% 
 cv_test_error_lda = mean(testing_error_lda);
