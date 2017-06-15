@@ -1,4 +1,4 @@
-function features_extracted = process_recording(bdf_path,condition_path)
+function features_extracted = process_recording(bdf_path,condition_path,type)
 
     path=bdf_path;
     text=condition_path
@@ -25,5 +25,9 @@ function features_extracted = process_recording(bdf_path,condition_path)
     signal_down = car(signal_down);
     disp('CAR done.');
     %%
-    features_extracted = process_session1(signal_down,header_down,text);
+    if(type == 1)
+        features_extracted = process_session1(signal_down,header_down,text);
+    else
+         features_extracted = process_session2(signal_down,header_down);
+    end
 end

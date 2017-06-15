@@ -32,6 +32,11 @@ signal_down = car(signal_down);
 disp('CAR done.');
 
 features_extracted_train = process_session1(signal_down,header_down,text);
+subject = 'loic';
+
+disp(['Loading data second session of ' subject '...'])
+load(['rawdata down/data_' subject '2.mat']);
+[ features_extracted_train ] = process_session2(signal_down2,header_down2);
 %% Features ranking and analysis
 [train_labels,train_features,null1,null2] = create_folds(features_extracted_train,-1);
 
@@ -66,9 +71,13 @@ size = 6;
 figure;
 
 %Get coeffs
+% best_coeffs_indices = find(abs(coeff(:,1)) > 0.08);
+% best_coeffs = coeff(find(abs(coeff(:,1)) > 0.08),1);
 coeff_abs = abs(coeff(:,1));
-[coeff_sort indices_PCA] = sort(coeff_abs,'descend');
-features_selected = indices_PCA(1:size);
+
+coeff_abs = abs(coeff(:,1));
+[coeff_sort indices] = sort(coeff_abs,'descend');
+features_selected = indices(1:size);
 
 features_name = get_name_of_features(features_selected);
 gplotmatrix(train_features(:,features_selected),[],train_labels,'br','ox',[],'on','',...
@@ -85,7 +94,7 @@ disp('ReliefF 20 first features');
 disp(orderedReliefF(1:20)');
 
 disp('PCA 20 first features');
-disp(pca_indices(1:20));
+disp(best_coeffs_indices(indices(1:20)));
 
 
 %% Plotting distribution of electrodes for the first 200 features
@@ -108,17 +117,18 @@ ylabel('Features');
 title('Features repartition in electrodes (first 200 ranked by ReliefF)');
 
 figure;
-features_PCA = pca_indices(1:N);
+features_PCA = best_coeffs_indices(indices(:))
 len = length(features_PCA);
 electrodes_PCA_200 = electrodes_containing_features(features_PCA);
 histogram(electrodes_PCA_200,64);
 axis([1 64 0 13])
 xlabel('Electrode index');
 ylabel('Features');
-title('Features repartition in electrodes (first 200 ranked by PCA)');
+s = sprintf('Features repartition in electrodes (first %s ranked by PCA)',num2str(len));
+title(s);
 
 %% Plotting distribution of frequencies for the first 200 features
-N = 100;
+N = 200;
 
 figure;
 frequency_Fisher_200 = frequency_of_features(orderedFisher(1:N));
@@ -139,12 +149,13 @@ title('Features repartition in frequency (first 200 ranked by ReliefF)');
 savefig('Graphs/Frequencies_ReliefF_200.fig');
 
 figure;
-features_PCA = pca_indices(1:N);
+features_PCA = best_coeffs_indices(indices(:))
 len = length(features_PCA);
 frequency_PCA_200 = frequency_of_features(features_PCA);
 histogram(frequency_PCA_200,31);
 axis([5 35 0 20]);
-xlabel('Frequency');
+xlabel('Electrode index');
 ylabel('Features');
-title('Features repartition in frequency (first 200 ranked by PCA)');
+s = sprintf('Features repartition in frequency (first %s ranked by PCA)',num2str(len));
+title(s);
 savefig('Graphs/Frequencies_PCA_200.fig');
