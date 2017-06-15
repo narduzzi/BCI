@@ -2,7 +2,6 @@ function [ MODEL ] = model_PCA(features, nb_PCs)
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
 
-
 for traj=0:4
     disp(['Cross validation fold number ' int2str(traj+1)])
     %Determine the test and train tests
@@ -123,7 +122,7 @@ std_train_error_dqda = std(training_error_dqda);
 std_train_error_SVM_linear = std(training_error_SVM_linear);
 std_train_error_SVM_quadratic = std(training_error_SVM_quadratic);
 std_train_error_SVM_rbf = std(training_error_SVM_rbf);
-
+%%
 figure(1)
 plot(1:10:nb_features, cv_test_error_lda);
 hold on; 
