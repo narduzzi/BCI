@@ -98,3 +98,12 @@ testing_error_PCA = classerror(test_labels, yhat);
 disp(fprintf('Train error on session 1 : %0.4f \n',training_error_PCA));
 disp(fprintf('Test error on session 2 : %0.4f \n',testing_error_PCA));
 disp(fprintf('AUC : %0.4f \n',AUC_PCA));
+
+%medium
+for i=1:size(test_features_medium,1)
+    mean_test(i,:) = mean_t;
+end
+test_features_centered = test_features_medium - mean_test;
+test_PCA_medium = test_features_centered * coeff;
+[yhat, score_PCA] = predict(classifier, test_PCA_medium(:,1:opt_PCs));
+[percentage_medium_in_easy_PCA, percentage_medium_in_hard_PCA ] = medium_testing( yhat, test_labels_medium);
