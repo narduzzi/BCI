@@ -121,7 +121,7 @@ s = sprintf('Features repartition in electrodes (first %s ranked by PCA)',num2st
 title(s);
 
 %% Plotting distribution of frequencies for the first 200 features
-N = 200;
+N = 100;
 
 figure;
 frequency_Fisher_200 = frequency_of_features(orderedFisher(1:N));
