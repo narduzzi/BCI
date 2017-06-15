@@ -85,7 +85,7 @@ disp('ReliefF 20 first features');
 disp(orderedReliefF(1:20)');
 
 disp('PCA 20 first features');
-disp(pca_indices(1:20));
+disp(indices_PCA(1:20));
 
 
 %% Plotting distribution of electrodes for the first 200 features
@@ -108,7 +108,7 @@ ylabel('Features');
 title('Features repartition in electrodes (first 200 ranked by ReliefF)');
 
 figure;
-features_PCA = pca_indices(1:N);
+features_PCA = indices_PCA(1:N);
 len = length(features_PCA);
 electrodes_PCA_200 = electrodes_containing_features(features_PCA);
 histogram(electrodes_PCA_200,64);
@@ -118,7 +118,7 @@ ylabel('Features');
 title('Features repartition in electrodes (first 200 ranked by PCA)');
 
 %% Plotting distribution of frequencies for the first 200 features
-N = 100;
+N = 200;
 
 figure;
 frequency_Fisher_200 = frequency_of_features(orderedFisher(1:N));
@@ -139,7 +139,7 @@ title('Features repartition in frequency (first 200 ranked by ReliefF)');
 savefig('Graphs/Frequencies_ReliefF_200.fig');
 
 figure;
-features_PCA = pca_indices(1:N);
+features_PCA = indices_PCA(1:N);
 len = length(features_PCA);
 frequency_PCA_200 = frequency_of_features(features_PCA);
 histogram(frequency_PCA_200,31);
