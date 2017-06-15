@@ -1,13 +1,12 @@
 %Basic model
-clc 
 clear all
 close all
+clc
 %Pipeline : Processing (CAR,Downsampling) and feature extraction
-features_session1 = process_recording('Recordings/af6_15032017_loic1/biosemi/data_loic1.bdf',...
-    'Recordings/af6_15032017_loic1/unity/af6_15032017_ses_1_condition.txt',1);
-features_session2 = process_recording('Recordings/af6_12042017_loic2/biosemi/data_loic2.bdf',...
-    'Recordings/af6_12042017_loic2/unity/af6_12042017_ses_2_condition.txt',2);
-
+features_session1 = process_recording('Recordings/af6_15032017_omar1/biosemi/data_omar1.bdf',...
+    'Recordings/af6_15032017_omar1/unity/af6_15032017_ses_1_condition.txt',1);
+features_session2 = process_recording('Recordings/af6_12042017_omar2/biosemi/data_omar2.bdf',...
+    'Recordings/af6_12042017_omar2/unity/af6_12042017_ses_2_condition.txt',2);
 
 %%
 %Evaluating models
@@ -29,10 +28,10 @@ test_labels(find(test_labels==2)) = [];
 %Fisher model: 
 disp('Evaluating models on second session...')
 disp('Fisher method:')
-opt_features = 460;
+opt_features = 220;
 %Train
 [orderedInd, orderedPower] = rankfeat(train_features,train_labels, 'fisher');
-classifier = fitcdiscr(train_features(:,orderedInd(1:opt_features)), train_labels, 'DiscrimTyp', 'DiagLinear', 'Prior', 'uniform');
+classifier = fitcdiscr(train_features(:,orderedInd(1:opt_features)), train_labels, 'DiscrimTyp', 'DiagQuadratic', 'Prior', 'uniform');
 yhat = predict(classifier, train_features(:,orderedInd(1:opt_features))); 
 training_error_fisher = classerror(train_labels, yhat);
 
@@ -55,9 +54,9 @@ title('ROC for classification using Fisher')
 %ReliefF : 
 disp('Relieff method:')
 %Train
-opt_features = 801;
+opt_features = 621;
 [RANKED,WEIGHT] = relieff(train_features,train_labels,400);
-classifier = fitcsvm(train_features(:, RANKED(1:opt_features)), train_labels, 'KernelFunction','linear');
+classifier = fitcdiscr(train_features(:, RANKED(1:opt_features)), train_labels, 'DiscrimTyp', 'DiagLinear', 'Prior', 'uniform');
 yhat = predict(classifier, train_features(:,RANKED(1:opt_features))); 
 training_error_relief = classerror(train_labels, yhat);
 
@@ -80,7 +79,7 @@ title('ROC for classification using ReliefF')
 %%
 %PCA : 
 disp('PCA:')
-opt_PCs = 330;
+opt_PCs = 1;
 [coeff, train_PCA, variance] = pca(train_features);
 % Attention: We have to center the testing data also
 mean_t = mean(train_features,1);
@@ -90,7 +89,7 @@ end
 test_features_centered = test_features - mean_test;
 test_PCA = test_features_centered * coeff;
 
-classifier = fitcdiscr(train_PCA(:,1:opt_PCs), train_labels, 'DiscrimTyp', 'DiagQuadratic', 'Prior', 'uniform');
+classifier = fitcdiscr(train_PCA(:,1:opt_PCs), train_labels, 'DiscrimTyp', 'Linear', 'Prior', 'uniform');
 yhat = predict(classifier, train_PCA(:,1:opt_PCs)); 
 training_error_PCA = classerror(train_labels, yhat);
 
