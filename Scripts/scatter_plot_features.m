@@ -32,7 +32,6 @@ signal_down = car(signal_down);
 disp('CAR done.');
 
 features_extracted_train = process_session1(signal_down,header_down,text);
-
 %% Features ranking and analysis
 [train_labels,train_features,null1,null2] = create_folds(features_extracted_train,-1);
 
@@ -67,10 +66,10 @@ size = 6;
 figure;
 
 %Get coeffs
-best_coeffs_indices = find(abs(coeff(:,1)) > 0.08);
-best_coeffs = coeff(find(abs(coeff(:,1)) > 0.08),1);
-[coeff_sort indices] = sort(best_coeffs,'descend');
-features_selected = best_coeffs_indices(indices(1:size));
+
+coeff_abs = abs(coeff(:,1));
+[coeff_sort indices_PCA] = sort(coeff_abs,'descend');
+features_selected = indices_PCA(1:size);
 
 features_name = get_name_of_features(features_selected);
 gplotmatrix(train_features(:,features_selected),[],train_labels,'br','ox',[],'on','',...
@@ -142,7 +141,7 @@ title('Features repartition in frequency (first 200 ranked by ReliefF)');
 savefig('Graphs/Frequencies_ReliefF_200.fig');
 
 figure;
-features_PCA = best_coeffs_indices(indices(:))
+features_PCA = best_coeffs_indices(indices_PCA(1:N));
 len = length(features_PCA);
 frequency_PCA_200 = frequency_of_features(features_PCA);
 histogram(frequency_PCA_200,31);
