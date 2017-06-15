@@ -1,18 +1,16 @@
-function [TRAIN_ERROR,TEST_ERROR] = model_reliefF(features, max_nb_features,K)
-%Performs a leave-one-trajectory out cross validation with a PCA for
+function model_fisher(features, nb_features)
+%Performs a leave-one-trajectory out cross validation with  fisher for
 %automatic feature selection. PCs are added 10 by 10. This function then
-%saves the testing and training errors in structures and plots the mean
-%test and train errors for different classifiers. 
-%Input: feature matrix , number of features, number of neighbors 
-%Output: structure TRAIN_ERROR and TEST_ERROR containing the errors for each classifier. 
+% plots the mean test and train errors for different classifiers. 
+%Input: feature matrix , number of features 
 
 for traj=0:4
     disp(['Cross validation fold number ' int2str(traj+1)])
     %Determine the test and train tests
     [train_labels,train_features,test_labels,test_features] = create_folds(features,traj);
-    [orderedInd, orderedPower] = relieff(train_features, train_labels, K);
+    [orderedInd, orderedPower] = rankfeat(train_features, train_labels, 'fisher');
     j=0;
-    for i=1:10:max_nb_features
+    for i=1:10:nb_features
         j=j+1;
         disp(['Feature: ' int2str(i)])
         classifier_lda = fitcdiscr(train_features(:,orderedInd(1:i)), train_labels, 'DiscrimTyp', 'Linear', 'Prior', 'uniform');
@@ -52,35 +50,6 @@ for traj=0:4
         test_error_SVM_rbf(traj+1,j) = classerror(test_labels,predicted_labels);
     end
 end
-
-TRAIN_ERROR.training_error_lda = training_error_lda;
-TRAIN_ERROR.training_error_dlda = training_error_dlda;
-TRAIN_ERROR.training_error_dqda = training_error_dqda;
-TRAIN_ERROR.training_error_SVM_linear = training_error_SVM_linear;
-TRAIN_ERROR.training_error_SVM_quadratic = training_error_SVM_quadratic;
-TRAIN_ERROR.training_error_SVM_rbf = training_error_SVM_rbf;
-
-TEST_ERROR.testing_error_lda = testing_error_lda;
-TEST_ERROR.testing_error_dlda = testing_error_dlda;
-TEST_ERROR.testing_error_dqda = testing_error_dqda;
-TEST_ERROR.test_error_SVM_linear = test_error_SVM_linear;
-TEST_ERROR.test_error_SVM_quadratic = test_error_SVM_quadratic;
-TEST_ERROR.test_error_SVM_rbf = test_error_SVM_rbf;
-
-testing_error_lda = TEST_ERROR.testing_error_lda;
-testing_error_dlda = TEST_ERROR.testing_error_dlda;
-testing_error_dqda = TEST_ERROR.testing_error_dqda;
-test_error_SVM_linear = TEST_ERROR.test_error_SVM_linear;
-test_error_SVM_quadratic = TEST_ERROR.test_error_SVM_quadratic ;
-test_error_SVM_rbf = TEST_ERROR.test_error_SVM_rbf;
-
-training_error_lda = NCA_TRAIN_ERROR.training_error_lda;
-training_error_dlda = NCA_TRAIN_ERROR.training_error_dlda ;
-training_error_dqda = NCA_TRAIN_ERROR.training_error_dqda;
-training_error_SVM_linear = NCA_TRAIN_ERROR.training_error_SVM_linear;
-training_error_SVM_quadratic = NCA_TRAIN_ERROR.training_error_SVM_quadratic;
-training_error_SVM_rbf = NCA_TRAIN_ERROR.training_error_SVM_rbf;
-nb_features = 1000;
 
 %% 
 cv_test_error_lda = mean(testing_error_lda);
@@ -261,5 +230,4 @@ hold on;
 title('Fisher feature selection')
 xlabel('Number of features')
 ylabel('Class error');
-
 end
