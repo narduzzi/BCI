@@ -6,7 +6,12 @@ function behavioral_analysis()
 easy = [];
 hard = [];
 hard_ass = [];
+
+% !! CHANGE THE NAME OF THE SUBJECTS AND THE NAME OF FOLDERS HERE AND IN
+% FUNCTION self_assess IF NEEDED !!
+
 subjectNames = {'omar1','loic1','ricardo1','simon1'};
+
 for i=1:4
     [easy_sub, hard_sub, hard_ass_sub] = self_assess(subjectNames{i});
     easy = vertcat(easy, easy_sub);
