@@ -11,9 +11,11 @@ close all
 
 %%
 signal_filtered = band_filter(2,40,5,256,signal_down);
-indice = [1:64];
-signal64  = signal_filtered(indice,:);
-signal_avg = mean(signal64,1);
+%indice = [1:64];
+centered_electrodes = load('25_centered_electrodes.mat');
+[indice] = index_of_electrodes(centered_electrodes.label,header_down);
+signal25  = signal_filtered(indice,:);
+signal_avg = mean(signal25,1);
 [easy hard_assist hard_noassist] = partitioning2(header_down,signal_avg,condition_text);
 idx_easy = 0;
 idx_easy = [idx_easy find(easy == 1e4)];
