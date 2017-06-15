@@ -19,7 +19,7 @@ trajectory_out_train = -1;
 [test_labels_medium,test_features_medium,n1,n2] = create_folds(features_mediums_session2,-1);
 
 %%Models here
-
+%%
 %Fisher
 %Training DLDA
 nb_features = 460;
@@ -39,6 +39,13 @@ testing_error_dlda = classerror(test_labels, predicted_labels);
 disp(fprintf('Train error on session 1 : %0.4f \n',training_error_dlda));
 disp(fprintf('Test error on session 2 : %0.4f \n',testing_error_dlda));
 disp(fprintf('AUC : %0.4f \n',AUC_dlda));
+
+%mediums
+[medium_yhat,score] = predict(classifier_dlda, test_features_medium(:,orderedInd(1:nb_features)));
+[medium_easy_Fisher, medium_hard_Fisher] = medium_testing( medium_yhat, test_labels_medium);
+disp(fprintf('Percentage medium easy : %0.4f \n',medium_easy_Fisher));
+disp(fprintf('Percentage medium hard : %0.4f \n',medium_hard_Fisher));
+
 
 %%
 %ReliefF
@@ -60,7 +67,13 @@ disp(fprintf('Train error on session 1 : %0.4f \n',training_error_svml));
 disp(fprintf('Test error on session 2 : %0.4f \n',testing_error_svml));
 disp(fprintf('AUC : %0.4f \n',AUC_SVM));
 
+%mediums
+[medium_yhat,score] = predict(classifier_svml, test_features_medium(:,orderedInd(1:nb_features)));
+[medium_easy_ReliefF, medium_hard_ReliefF ] = medium_testing( medium_yhat, test_labels_medium);
+disp(fprintf('Percentage medium easy : %0.4f \n',medium_easy_ReliefF));
+disp(fprintf('Percentage medium hard : %0.4f \n',medium_hard_ReliefF));
 
+%%
 %PCA
 disp('PCA:')
 opt_PCs = 330;
@@ -85,10 +98,3 @@ testing_error_PCA = classerror(test_labels, yhat);
 disp(fprintf('Train error on session 1 : %0.4f \n',training_error_PCA));
 disp(fprintf('Test error on session 2 : %0.4f \n',testing_error_PCA));
 disp(fprintf('AUC : %0.4f \n',AUC_PCA));
-
-%Test medium classification here
-%Fisher
-
-%Relief
-
-%PCA
