@@ -66,6 +66,7 @@ for traj=1:5
     testing_error_svmrbf(traj) = classerror(test_labels, yhat_svmrbf);
     MODEL.SELECTED.svmrbf{traj} = selected_svmrbf;
     %}
+    save('model_FFS');
 end
 
 

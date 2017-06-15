@@ -1,7 +1,0 @@
-EXG1, below the outer canthus of left eye
-EXG2, nasion
-EXG3, below the outer canthus of right eye
-EXG4, proximal biceps
-EXG5, distal biceps
-EXG6, proximal triceps
-EXG7, distal triceps
