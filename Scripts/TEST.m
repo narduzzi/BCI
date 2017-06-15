@@ -3,8 +3,8 @@ clear all;
 clc;
 
 addpath(genpath('..\Recordings'));
-recording_session_train = 'ag7_24032017';
-user = 'ricardo';
+recording_session_train = 'af6_15032017';
+user = 'loic';
 
 path=strcat('Recordings/',recording_session_train,'_',user,'1','/biosemi/data_',user,'1','.bdf');
 text=strcat('Recordings/',recording_session_train,'_',user,'1','/unity/',recording_session_train,'_ses_1_condition.txt');
@@ -54,4 +54,4 @@ features_extracted = features_extraction(easy(indices,:),hard_noassist(indices,:
 %%
 [MODEL] = model_FFS(features_extracted);
 %%
-save('Results/FFS/Ricardo_MODEL.mat','MODEL');
+save('Results/FFS/Loic_MODEL.mat','MODEL');
