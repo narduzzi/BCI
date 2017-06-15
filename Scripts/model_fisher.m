@@ -1,8 +1,6 @@
-function discriminant_analysis(features, nb_features)
+function model_fisher(features, nb_features)
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
-
-
 
 for traj=0:4
     disp(['Cross validation fold number ' int2str(traj)])
