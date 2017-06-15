@@ -25,5 +25,5 @@ function features_extracted = process_recording(bdf_path,condition_path)
     signal_down = car(signal_down);
     disp('CAR done.');
     %%
-    features_extracted_train = process_session1(signal_down,header_down,text);
+    features_extracted = process_session1(signal_down,header_down,text);
 end
