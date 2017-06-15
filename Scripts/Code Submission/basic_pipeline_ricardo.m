@@ -111,7 +111,7 @@ xlabel('False positive rate')
 ylabel('True positive rate')
 title('ROC for classification using PCA')
 
-
+mean_test = [];
 %Evaluate medium
 for i=1:size(test_features_medium,1)
     mean_test(i,:) = mean_t;

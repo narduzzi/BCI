@@ -1,10 +1,12 @@
 %Basic model
-
+clc 
+clear all
+close all
 %Pipeline : Processing (CAR,Downsampling) and feature extraction
 features_session1 = process_recording('Recordings/af6_15032017_loic1/biosemi/data_loic1.bdf',...
-    'Recordings/af6_15032017_loic1/unity/af6_15032017_ses_1_condition.txt',1)
+    'Recordings/af6_15032017_loic1/unity/af6_15032017_ses_1_condition.txt',1);
 features_session2 = process_recording('Recordings/af6_12042017_loic2/biosemi/data_loic2.bdf',...
-    'Recordings/af6_12042017_loic2/unity/af6_12042017_ses_2_condition.txt',2)
+    'Recordings/af6_12042017_loic2/unity/af6_12042017_ses_2_condition.txt',2);
 
 
 %%
@@ -104,7 +106,7 @@ xlabel('False positive rate')
 ylabel('True positive rate')
 title('ROC for classification using PCA')
 
-
+mean_test = [];
 %Evaluate medium
 for i=1:size(test_features_medium,1)
     mean_test(i,:) = mean_t;
