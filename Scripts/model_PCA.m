@@ -78,4 +78,200 @@ MODEL.TEST_ERROR.test_error_SVM_rbf = test_error_SVM_rbf;
 MODEL.PCsNb = nb_PCs;
 MODEL.vectorNbPCs = 1:10:nb_PCs;
 
+
+testing_error_lda = MODEL_PCA.TEST_ERROR.testing_error_lda;
+testing_error_dlda = MODEL_PCA.TEST_ERROR.testing_error_dlda;
+testing_error_dqda = MODEL_PCA.TEST_ERROR.testing_error_dqda;
+test_error_SVM_linear = MODEL_PCA.TEST_ERROR.test_error_SVM_linear;
+test_error_SVM_quadratic = MODEL_PCA.TEST_ERROR.test_error_SVM_quadratic ;
+test_error_SVM_rbf = MODEL_PCA.TEST_ERROR.test_error_SVM_rbf;
+
+training_error_lda = MODEL_PCA.TRAIN_ERROR.training_error_lda;
+training_error_dlda = MODEL_PCA.TRAIN_ERROR.training_error_dlda ;
+training_error_dqda = MODEL_PCA.TRAIN_ERROR.training_error_dqda;
+training_error_SVM_linear = MODEL_PCA.TRAIN_ERROR.training_error_SVM_linear;
+training_error_SVM_quadratic = MODEL_PCA.TRAIN_ERROR.training_error_SVM_quadratic;
+training_error_SVM_rbf = MODEL_PCA.TRAIN_ERROR.training_error_SVM_rbf;
+nb_features = MODEL_PCA.PCsNb;
+
+%% 
+cv_test_error_lda = mean(testing_error_lda);
+cv_test_error_dlda = mean(testing_error_dlda);
+cv_test_error_dqda = mean(testing_error_dqda);
+cv_test_error_SVM_linear = mean(test_error_SVM_linear);
+cv_test_error_SVM_quadratic = mean(test_error_SVM_quadratic);
+cv_test_error_SVM_rbf = mean(test_error_SVM_rbf);
+
+cv_train_error_lda = mean(training_error_lda);
+cv_train_error_dlda = mean(training_error_dlda);
+cv_train_error_dqda = mean(training_error_dqda);
+cv_train_error_SVM_linear = mean(training_error_SVM_linear);
+cv_train_error_SVM_quadratic = mean(training_error_SVM_quadratic);
+cv_train_error_SVM_rbf = mean(training_error_SVM_rbf);
+
+%%
+std_test_error_lda = std(testing_error_lda);
+std_test_error_dlda = std(testing_error_dlda);
+std_test_error_dqda = std(testing_error_dqda);
+std_test_error_SVM_linear = std(test_error_SVM_linear);
+std_test_error_SVM_quadratic = std(test_error_SVM_quadratic);
+std_test_error_SVM_rbf = std(test_error_SVM_rbf);
+
+std_train_error_lda = std(training_error_lda);
+std_train_error_dlda = std(training_error_dlda);
+std_train_error_dqda = std(training_error_dqda);
+std_train_error_SVM_linear = std(training_error_SVM_linear);
+std_train_error_SVM_quadratic = std(training_error_SVM_quadratic);
+std_train_error_SVM_rbf = std(training_error_SVM_rbf);
+
+figure(1)
+plot(1:10:nb_features, cv_test_error_lda);
+hold on; 
+plot(1:10:nb_features, cv_test_error_dlda);
+hold on; 
+plot(1:10:nb_features, cv_test_error_dqda);
+hold on;
+plot(1:10:nb_features, cv_test_error_SVM_linear);
+hold on; 
+plot(1:10:nb_features, cv_test_error_SVM_quadratic);
+hold on; 
+plot(1:10:nb_features, cv_test_error_SVM_rbf);
+hold on;
+plot(1:10:nb_features, cv_train_error_lda);
+hold on; 
+plot(1:10:nb_features, cv_train_error_dlda);
+hold on; 
+plot(1:10:nb_features, cv_train_error_dqda);
+hold on
+plot(1:10:nb_features, cv_train_error_SVM_linear);
+hold on
+plot(1:10:nb_features, cv_train_error_SVM_quadratic);
+hold on
+plot(1:10:nb_features, cv_train_error_SVM_rbf);
+legend('test lda', 'test dlda', 'test dqda','test SVM_l','test SVM_q','test SVM_rbf', 'train lda', 'train dlda', 'train dqda','train SVM_l','train SVM_q','train SVM_q');
+
+%%
+close all;
+figure(2)
+plot(1:10:nb_features, std_test_error_lda+cv_test_error_lda, '--', 'Color', 'r', 'LineWidth', 0.3)
+hold on;
+plot(1:10:nb_features, (-1)*std_test_error_lda+cv_test_error_lda, '--', 'Color', 'r')
+hold on;
+plot(1:10:nb_features, cv_test_error_lda, 'Color', 'r', 'LineWidth', 2);
+hold on; 
+plot(1:10:nb_features, std_test_error_dlda+cv_test_error_dlda, '--', 'Color', 'b')
+hold on;
+plot(1:10:nb_features, (-1)*std_test_error_dlda+cv_test_error_dlda, '--', 'Color', 'b')
+hold on;
+plot(1:10:nb_features, cv_test_error_dlda, 'Color', 'b', 'LineWidth', 2);
+hold on; 
+plot(1:10:nb_features, std_test_error_dqda+cv_test_error_dqda, '--', 'Color', 'g')
+hold on;
+plot(1:10:nb_features, (-1)*std_test_error_dqda+cv_test_error_dqda, '--', 'Color', 'g')
+hold on;
+plot(1:10:nb_features, cv_test_error_dqda, 'Color', 'g', 'LineWidth', 2);
+hold on; 
+plot(1:10:nb_features, std_train_error_lda+cv_train_error_lda, '--', 'Color', 'k')
+hold on;
+plot(1:10:nb_features, (-1)*std_train_error_lda+cv_train_error_lda, '--', 'Color', 'k')
+hold on;
+plot(1:10:nb_features, cv_train_error_lda, 'Color', 'k', 'LineWidth', 2);
+hold on; 
+plot(1:10:nb_features, std_train_error_dlda+cv_train_error_dlda, '--', 'Color', 'm')
+hold on;
+plot(1:10:nb_features, (-1)*std_train_error_dlda+cv_train_error_dlda, '--', 'Color', 'm')
+hold on;
+plot(1:10:nb_features, cv_train_error_dlda, 'Color', 'm', 'LineWidth', 2);
+hold on; 
+plot(1:10:nb_features, std_train_error_dqda+cv_train_error_dqda, '--', 'Color', 'y')
+hold on;
+plot(1:10:nb_features, (-1)*std_train_error_dqda+cv_train_error_dqda, '--', 'Color', 'y')
+hold on;
+plot(1:10:nb_features, cv_train_error_dqda, 'Color', 'y', 'LineWidth', 2);
+hold on; 
+
+
+figure(3)
+plot(1:10:nb_features, cv_test_error_lda, 'Color', 'r', 'LineWidth', 2);
+hold on;
+plot(1:10:nb_features, cv_test_error_dlda, 'Color', [1 17 181] ./ 255, 'LineWidth', 2);
+hold on;
+plot(1:10:nb_features, cv_test_error_dqda, 'Color', [3 155 82] ./ 255, 'LineWidth', 2);
+hold on;
+plot(1:10:nb_features, cv_train_error_lda, 'Color', [250 110 150] ./ 255, 'LineWidth', 2);
+hold on;
+plot(1:10:nb_features, cv_train_error_dlda, 'Color', [28 200 238] ./ 255, 'LineWidth', 2);
+hold on; 
+plot(1:10:nb_features, cv_train_error_dqda, 'Color', [94 250 81] ./ 255, 'LineWidth', 2);
+legend('Test LDA', 'Test DLDA', 'Test DQDA', 'Train LDA', 'Train DLDA', 'Train DQDA')
+hold on;
+plot(1:10:nb_features, std_test_error_lda+cv_test_error_lda, '--', 'Color', 'r', 'LineWidth', 0.3)
+hold on;
+plot(1:10:nb_features, (-1)*std_test_error_lda+cv_test_error_lda, '--', 'Color', 'r')
+hold on; 
+plot(1:10:nb_features, std_test_error_dlda+cv_test_error_dlda, '--', 'Color', [1 17 181] ./ 255)
+hold on;
+plot(1:10:nb_features, (-1)*std_test_error_dlda+cv_test_error_dlda, '--', 'Color', [1 17 181] ./ 255)
+hold on;
+plot(1:10:nb_features, std_test_error_dqda+cv_test_error_dqda, '--', 'Color', [3 155 82] ./ 255)
+hold on;
+plot(1:10:nb_features, (-1)*std_test_error_dqda+cv_test_error_dqda, '--', 'Color', [3 155 82] ./ 255)
+hold on;
+plot(1:10:nb_features, std_train_error_lda+cv_train_error_lda, '--', 'Color', [250 110 150] ./ 255)
+hold on;
+plot(1:10:nb_features, (-1)*std_train_error_lda+cv_train_error_lda, '--', 'Color', [250 110 150] ./ 255)
+hold on;
+plot(1:10:nb_features, std_train_error_dlda+cv_train_error_dlda, '--', 'Color', [28 200 238] ./ 255)
+hold on;
+plot(1:10:nb_features, (-1)*std_train_error_dlda+cv_train_error_dlda, '--', 'Color', [28 200 238] ./ 255)
+hold on;
+plot(1:10:nb_features, std_train_error_dqda+cv_train_error_dqda, '--', 'Color', [94 250 81] ./ 255)
+hold on;
+plot(1:10:nb_features, (-1)*std_train_error_dqda+cv_train_error_dqda, '--', 'Color', [94 250 81] ./ 255)
+title('Fisher feature selection')
+xlabel('Number of features')
+ylabel('Class error');
+
+figure(4)
+plot(1:10:nb_features, cv_test_error_SVM_linear, 'Color', 'r', 'LineWidth', 2);
+hold on;
+plot(1:10:nb_features, cv_test_error_SVM_quadratic, 'Color', [1 17 181] ./ 255, 'LineWidth', 2);
+hold on;
+plot(1:10:nb_features, cv_test_error_SVM_rbf, 'Color', [3 155 82] ./ 255, 'LineWidth', 2);
+hold on;
+plot(1:10:nb_features, cv_train_error_SVM_linear, 'Color', [250 110 150] ./ 255, 'LineWidth', 2);
+hold on;
+plot(1:10:nb_features, cv_train_error_SVM_quadratic, 'Color', [28 200 238] ./ 255, 'LineWidth', 2);
+hold on; 
+plot(1:10:nb_features, cv_train_error_SVM_rbf, 'Color', [94 250 81] ./ 255, 'LineWidth', 2);
+legend('Test SVM Lin', 'Test SVM Qua', 'Test SVM RBF', 'Train SVM Lin', 'Train SVM Qua', 'Train SVM RBF')
+hold on;
+plot(1:10:nb_features, std_test_error_SVM_linear+cv_test_error_SVM_linear, '--', 'Color', 'r', 'LineWidth', 0.3)
+hold on;
+plot(1:10:nb_features, (-1)*std_test_error_SVM_linear+cv_test_error_SVM_linear, '--', 'Color', 'r')
+hold on; 
+plot(1:10:nb_features, std_test_error_SVM_quadratic+cv_test_error_SVM_quadratic, '--', 'Color', [1 17 181] ./ 255)
+hold on;
+plot(1:10:nb_features, (-1)*std_test_error_SVM_quadratic+cv_test_error_SVM_quadratic, '--', 'Color', [1 17 181] ./ 255)
+hold on;
+plot(1:10:nb_features, std_test_error_SVM_rbf+cv_test_error_SVM_rbf, '--', 'Color', [3 155 82] ./ 255)
+hold on;
+plot(1:10:nb_features, (-1)*std_test_error_SVM_rbf+cv_test_error_SVM_rbf, '--', 'Color', [3 155 82] ./ 255)
+hold on;
+plot(1:10:nb_features, std_train_error_SVM_linear+cv_train_error_SVM_linear, '--', 'Color', [250 110 150] ./ 255)
+hold on;
+plot(1:10:nb_features, (-1)*std_train_error_SVM_linear+cv_train_error_SVM_linear, '--', 'Color', [250 110 150] ./ 255)
+hold on;
+plot(1:10:nb_features, std_train_error_SVM_quadratic+cv_train_error_SVM_quadratic, '--', 'Color', [28 200 238] ./ 255)
+hold on;
+plot(1:10:nb_features, (-1)*std_train_error_SVM_quadratic+cv_train_error_SVM_quadratic, '--', 'Color', [28 200 238] ./ 255)
+hold on;
+plot(1:10:nb_features, std_train_error_SVM_rbf+cv_train_error_SVM_rbf, '--', 'Color', [94 250 81] ./ 255)
+hold on;
+plot(1:10:nb_features, (-1)*std_train_error_SVM_rbf+cv_train_error_SVM_rbf, '--', 'Color', [94 250 81] ./ 255)
+hold on;
+title('Fisher feature selection')
+xlabel('Number of features')
+ylabel('Class error');
+
 end
