@@ -1,4 +1,4 @@
-function [TRAIN_ERROR,TEST_ERROR] = models_evaluation(features, max_nb_features,K)
+function [TRAIN_ERROR,TEST_ERROR] = model_reliefF(features, max_nb_features,K)
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
 
