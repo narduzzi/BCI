@@ -1,8 +1,9 @@
 function freqanalysis(signal_down,header_down,condition_text)
 %This function takes a down sampled signal, filter it between 1 and 40 Hz
-%restrict the number of electrodes to 2extract the trajectories with their 
+%restrict the number of electrodes to extract the trajectories with their 
 %conditions and then perform fft and  filtering to see alpha and beta bands
-%on each trajectory on different plots
+%on each trajectory on different plots. It also performs a fft on each
+%electrodes averaged by conditions and plot their frequency spectrum
 % It takes as Input the signal down sampled and the file texted where the
 % the difficulty labels are stored 
 
